@@ -1,0 +1,3 @@
+{"instruction": "Translate to Hindi:", "input": "Good evening", "output": "शुभ संध्या"}
+{"instruction": "Summarize:", "input": "Machine learning is part of AI that learns patterns from data.", "output": "ML learns patterns from data."}
+{"instruction": "Answer the question:", "input": "What is the capital of France?", "output": "Paris."}
