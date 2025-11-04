@@ -1,0 +1,8 @@
+# requirement.txt (modified)
+modelscope>=1.31.0
+addict>=2.4.0
+datasets>=2.11.0
+pyarrow>=10.0.1
+transformers>=4.34.0
+torch>=2.9.0
+numpy>=1.26.0
