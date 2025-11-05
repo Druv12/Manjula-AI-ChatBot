@@ -1,0 +1,1107 @@
+[{
+  "_id": {
+    "$oid": "690603b01e78f56b3b7fdf5b"
+  },
+  "username": "hemash",
+  "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+  "email": "druvmishra.ai@gmail.com",
+  "full_name": "hemash",
+  "created_at": {
+    "$date": "2025-11-01T18:27:20.430Z"
+  },
+  "last_login": {
+    "$date": "2025-11-01T18:27:49.410Z"
+  },
+  "usage_count": {
+    "chat": 0,
+    "file_qa": 0,
+    "image_gen": 0,
+    "video_gen": 1,
+    "image_search": 0,
+    "image_qa": 0
+  },
+  "ip_history": [
+    "103.174.160.133"
+  ],
+  "history": [
+    {
+      "timestamp": {
+        "$date": "2025-11-01T20:21:35.935Z"
+      },
+      "feature": "video_gen",
+      "text": "“In a futuristic human city bustling with a rush-hour crowd, a colossal monster tiger emerges from the shadows, its glowing eyes cutting through the neon lights. People scream and scatter as chaos unfolds in the streets, blending fear, awe, and adrenaline in the heart of the urban jungle.”",
+      "reply": "❌ **All video generation services failed**\n\n**What was tried:**\n1. ❌ Replicate (Premium) - Failed or needs billing\n2. ❌ Hugging Face Models (FREE) - All busy/unavailable\n\n**Why this happens:**\n- FREE services require Hugging Face Pro subscription now\n- Replicate needs billing setup to work\n\n**What to do:**\n1. **Setup Replicate billing** (recommended):\n   - Go to https://replicate.com/account/billing\n   - Add payment method (get $10 FREE credit)\n   - Cost: ~$0.01-0.05 per video\n\n2. **Try again later** (free services may work during off-peak hours)\n\n**Alternative FREE services:**\n- 🎬 RunwayML: https://app.runwayml.com (free tier)\n- 🎬 Pika Labs: https://pika.art (Discord bot)\n- 🎬 Haiper AI: https://haiper.ai (new, free)\n",
+      "metadata": {}
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69062ff4c42898af9365f0ef"
+  },
+  "username": "jorje",
+  "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+  "email": "druvmishra2018@gmail.com",
+  "full_name": "jocob",
+  "created_at": {
+    "$date": "2025-11-01T21:36:12.514Z"
+  },
+  "last_login": {
+    "$date": "2025-11-05T10:46:56.227Z"
+  },
+  "usage_count": {
+    "chat": 24,
+    "file_qa": 12,
+    "image_gen": 11,
+    "video_gen": 15,
+    "image_search": 6,
+    "image_qa": 10
+  },
+  "ip_history": [
+    "103.174.160.133",
+    "117.227.73.176",
+    "117.226.201.176",
+    "117.227.30.38",
+    "103.174.160.43",
+    "103.206.105.89",
+    "103.206.105.84",
+    "103.206.105.85",
+    "103.174.160.101",
+    "103.174.160.120"
+  ],
+  "history": [
+    {
+      "timestamp": {
+        "$date": "2025-11-01T21:39:12.673Z"
+      },
+      "feature": "chat",
+      "text": "i need a small help",
+      "reply": "Sure, I'm here to help! Please tell me what you need assistance with.",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-01T22:02:46.989Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up with claw marks on his chest and memories that aren’t his. Rumors speak of a tiger that prowls the rooftops at night — a spirit bound to avenge the wronged. As the city grows more haunted and the line between man and beast begins to blur, he must uncover whether he’s the hunter, the hunted, or something far more terrifying.",
+      "reply": "❌ **All video generation services are currently unavailable**\n\n**Services tried (in order):**\n1. ❌ Replicate (Premium) - Failed/needs billing\n2. ❌ Pollinations.ai Video - Service unavailable\n3. ❌ Zeroscope v2 (HF) - Model loading or unavailable\n4. ❌ AnimateDiff (HF) - Service unavailable\n5. ❌ ModelScope (HF) - Service unavailable\n6. ❌ Stable Video Diffusion (HF) - Service unavailable\n\n**Why this happens:**\n- 🔥 High demand on FREE services\n- ⏰ Models need time to load (20-30 seconds)\n- 🚫 Some require Hugging Face Pro now\n\n**Best FREE alternatives (100% working RIGHT NOW):**\n\n1. **Haiper AI** (⭐ BEST - Truly FREE):\n   - 🔗 https://haiper.ai\n   - No signup required for first video\n   - Very high quality\n   - Instant generation\n\n2. **Pika Labs** (FREE):\n   - 🔗 https://pika.art/login\n   - Use Discord bot\n   - 30 FREE videos/month\n\n3. **Runway Gen-2** (FREE tier):\n   - 🔗 https://app.runwayml.com\n   - 125 FREE credits\n   - Professional quality\n\n4. **Leonardo.ai Motion** (FREE):\n   - 🔗 https://",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-01T22:08:37.625Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up with claw marks on his chest and memories that aren’t his. Rumors speak of a tiger that prowls the rooftops at night — a spirit bound to avenge the wronged. As the city grows more haunted and the line between man and beast begins to blur, he must uncover whether he’s the hunter, the hunted, or something far more terrifying.",
+      "reply": "❌ **Video generation unavailable - All 7 methods failed**\n\n**Your prompt:** *In a sprawling, neon-lit city known for its restless ghosts, a man wakes up w*\n\n**What was tried:**\n1. ❌ Fal.ai (FREE)\n2. ❌ Segmind (FREE)\n3. ❌ DeepInfra (FREE)\n4. ❌ Together.ai (FREE)\n5. ❌ Hugging Face models (3 different ones)\n6. ❌ Replicate (Failed)\n\n**Reality check:**\nFree AI video generation is extremely resource-intensive and most free services are:\n- 🚫 Discontinued or require payment now\n- 🔥 Overloaded with users\n- ⏰ Only work during specific times\n\n**WORKING alternatives (external sites - 100% FREE):**\n\n1. **Haiper AI** ⭐ (BEST):\n   - 🔗 https://haiper.ai\n   - Completely free, no signup for first use\n   - High quality, 2-second videos\n   - Works instantly\n\n2. **Pika Labs**:\n   - 🔗 https://pika.art\n   - 30 FREE videos/month\n   - Very high quality\n\n3. **Runway Gen-2**:\n   - 🔗 https://app.runwayml.com\n   - 125 FREE credits (≈5 videos)\n   - Professional grade\n\n4. **Leonardo.ai Motion**:\n   - 🔗 https://app.l",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-01T22:08:37.968Z"
+      },
+      "feature": "chat",
+      "text": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up with claw marks on his chest and memories that aren’t his. Rumors speak of a tiger that prowls the rooftops at night — a spirit bound to avenge the wronged. As the city grows more haunted and the line between man and beast begins to blur, he must uncover whether he’s the hunter, the hunted, or something far more terrifying.",
+      "reply": "The first thing Jian felt was the biting cold of the floor, the second, the searing pain across his chest. He clawed his way to an upright position, his breath ragged, and stared down at the jagged, crimson lines etched deep into his skin – three parallel slashes, unmistakably from a massive claw. But it wasn't the pain that rooted him to the spot, it was the images flashing behind his eyes: the iridescent sheen of oil on a puddle, the sickening crunch of bone, the triumphant snarl of a predator. None of them were his.\n\nHe was in his apartment, a cramped box overlooking the perpetually shimmering district of Neon Gulch. Outside, the city pulsed with an artificial heartbeat, skeletal spires piercing a permanent twilight, their surfaces draped in shifting holographic advertisements and the grime of a thousand sleepless nights. Restless ghosts, they called them, spectral echoes of lives consumed by the city's insatiable hunger, often seen drifting through alleyways or flickering in the pe",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-01T22:16:14.580Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up with claw marks on his chest and memories that aren’t his. Rumors speak of a tiger that prowls the rooftops at night — a spirit bound to avenge the wronged. As the city grows more haunted and the line between man and beast begins to blur, he must uncover whether he’s the hunter, the hunted, or something far more terrifying.",
+      "reply": "❌ **All video generation services are currently unavailable**\n\n**Your prompt:** *In a sprawling, neon-lit city known for its restless ghosts, a man wakes up w*\n\n**What was tried:**\n1. ❌ Replicate (Premium) - Failed/needs billing\n2. ❌ Hugging Face Models (FREE) - All busy/unavailable\n\n---\n\n## 🎬 **WORKING Alternatives (100% FREE)**\n\n### ⭐ **Option 1: Haiper AI (BEST - No signup required)**\n1. Click: https://haiper.ai\n2. Click \"Create Video\"\n3. Paste your prompt: `In a sprawling, neon-lit city known for its restless ghosts, a man wakes up w`\n4. Wait 30-60 seconds\n5. Download your video\n\n### **Option 2: Pika Labs (30 free videos/month)**\n1. Click: https://pika.art\n2. Sign up (free)\n3. Enter prompt: `In a sprawling, neon-lit city known for its restless ghosts, a man wakes up w`\n4. Generate video\n\n### **Option 3: Runway Gen-2 (125 free credits)**\n1. Click: https://app.runwayml.com\n2. Sign up (free)\n3. Select \"Text to Video\"\n4. Enter: `In a sprawling, neon-lit city known for its restless ghos",
+      "metadata": {
+        "prompt": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up w",
+        "status": "all_failed"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-01T22:37:52.376Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up with claw marks on his chest and memories that aren’t his. Rumors speak of a tiger that prowls the rooftops at night — a spirit bound to avenge the wronged. As the city grows more haunted and the line between man and beast begins to blur, he must uncover whether he’s the hunter, the hunted, or something far more terrifying.",
+      "reply": "✅ **Video generated locally!**\n\n**Quality:** Basic (text animation)\n**Method:** Local generation (no API needed)\n**Prompt:** *In a sprawling, neon-lit city known for its restless ghosts, a man wakes up w*\n**Duration:** 3 seconds\n\n⚠️ **Note:** This is a basic text animation video. For better quality:\n- Setup Replicate billing (~$0.01/video): https://replicate.com/account/billing\n- Get Hugging Face API key (free): https://huggingface.co/settings/tokens\n\n**This local generation always works** - no internet or API required!\n",
+      "metadata": {
+        "model": "Local Generator"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T07:13:07.301Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up with claw marks on his chest and memories that aren’t his. Rumors speak of a tiger that prowls the rooftops at night — a spirit bound to avenge the wronged. As the city grows more haunted and the line between man and beast begins to blur, he must uncover whether he’s the hunter, the hunted, or something far more terrifying.",
+      "reply": "✅ Video generated locally (FREE)! (Size: 745.8 KB)",
+      "metadata": {
+        "service": "Local (FREE)"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T07:22:47.008Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up with claw marks on his chest and memories that aren’t his. Rumors speak of a tiger that prowls the rooftops at night — a spirit bound to avenge the wronged. As the city grows more haunted and the line between man and beast begins to blur, he must uncover whether he’s the hunter, the hunted, or something far more terrifying.",
+      "reply": "✅ Video generated locally (FREE)! (Size: 542.6 KB, 30 frames at 10 FPS)",
+      "metadata": {
+        "service": "Local (FREE)"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T07:50:24.163Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up with claw marks on his chest and memories that aren’t his. Rumors speak of a tiger that prowls the rooftops at night — a spirit bound to avenge the wronged. As the city grows more haunted and the line between man and beast begins to blur, he must uncover whether he’s the hunter, the hunted, or something far more terrifying.",
+      "reply": "✅ Video generated locally with AI images! (Size: 679.0 KB, 30 frames at 10 FPS)",
+      "metadata": {
+        "service": "Local (FREE)"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T07:58:19.862Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up with claw marks on his chest and memories that aren’t his. Rumors speak of a tiger that prowls the rooftops at night — a spirit bound to avenge the wronged. As the city grows more haunted and the line between man and beast begins to blur, he must uncover whether he’s the hunter, the hunted, or something far more terrifying.",
+      "reply": "✅ Video generated locally with AI! (Size: 2543.6 KB, 30 frames at 10 FPS)",
+      "metadata": {
+        "service": "Local (FREE)"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T08:33:26.345Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling, neon-lit city known for its restless ghosts, a man wakes up with claw marks on his chest and memories that aren’t his. Rumors speak of a tiger that prowls the rooftops at night — a spirit bound to avenge the wronged. As the city grows more haunted and the line between man and beast begins to blur, he must uncover whether he’s the hunter, the hunted, or something far more terrifying.",
+      "reply": "✅ Video generated locally with AI! (Size: 2543.6 KB, 30 frames at 10 FPS)",
+      "metadata": {
+        "service": "Local Animation"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T08:51:51.353Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling city built over forgotten catacombs, people whisper about a haunted presence that stalks the streets after midnight — a tiger made of shadow and smoke. When a man awakens in a derelict apartment with blood under his nails and no memory of the past three nights, he becomes the prime suspect in a string of brutal killings.\n\nBut the deeper he investigates, the more the city itself seems alive — walls whisper his name, reflections move when he doesn’t, and the tiger’s glowing eyes fol",
+      "reply": "✅ Local animated video created! (Size: 1021.7 KB)\n\n⚠️ This is a fallback animation since cloud services are unavailable.\n\n**For better results, try:**\n- Waiting 20-30 seconds (HF models need warm-up)\n- Using external services: Pika Labs, RunwayML Gen-2",
+      "metadata": {
+        "service": "Local Animation"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T09:07:30.006Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling city built over forgotten catacombs, people whisper about a haunted presence that stalks the streets after midnight — a tiger made of shadow and smoke. When a man awakens in a derelict apartment with blood under his nails and no memory of the past three nights, he becomes the prime suspect in a string of brutal killings.\n\nBut the deeper he investigates, the more the city itself seems alive — walls whisper his name, reflections move when he doesn’t, and the tiger’s glowing eyes fol",
+      "reply": "Failed - all services unavailable",
+      "metadata": {
+        "error": "all_failed"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T09:10:34.299Z"
+      },
+      "feature": "video_gen",
+      "text": "In a sprawling city built over forgotten catacombs, people whisper about a haunted presence that stalks the streets after midnight — a tiger made of shadow and smoke. When a man awakens in a derelict apartment with blood under his nails and no memory of the past three nights, he becomes the prime suspect in a string of brutal killings.\n\nBut the deeper he investigates, the more the city itself seems alive — walls whisper his name, reflections move when he doesn’t, and the tiger’s glowing eyes fol",
+      "reply": "✅ Local animated video created! (Size: 1021.7 KB)\n\n⚠️ This is a fallback animation since cloud services are unavailable.\n\n**For better results, try:**\n- Waiting 20-30 seconds (HF models need warm-up)\n- Using external services: Pika Labs, RunwayML Gen-2",
+      "metadata": {
+        "service": "Local Animation"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T14:00:20.498Z"
+      },
+      "feature": "chat",
+      "text": "in chusi Hindi",
+      "reply": "It seems you're asking for the Hindi equivalent of the Telugu phrase **\"ఇంచుసి\" (inchi chuusi)**.\n\nThis Telugu phrase typically means:\n*   **After seeing**\n*   **After observing**\n*   **On checking / After checking**\n*   **Having seen**\n*   **After looking at (it) a little**\n\nHere are the common ways to say this in Hindi:\n\n1.  **देखकर (dekhkar)**\n    *   This is the most direct and common translation for \"after seeing\" or \"on seeing.\"\n    *   *Example:* \"मैं देखकर बताऊँगा।\" (Main dekhkar bataoonga.) - \"I will tell you after seeing/checking.\"\n\n2.  **देखने के बाद (dekhne ke baad)**\n    *   This also means \"after seeing.\"\n    *   *Example:* \"देखने के बाद निर्णय लेंगे।\" (Dekhne ke baad nirnay lenge.) - \"We will decide after seeing.\"\n\n3.  **जाँच करके (jaanch karke)**\n    *   If the context implies \"checking\" or \"verifying.\"\n    *   *Example:* \"जाँच करके पुष्टि करें।\" (Jaanch karke pushti karein.) - \"Confirm after checking.\"\n\nIf you specifically want to include the \"a little\" or \"somewhat\" a",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T14:00:33.297Z"
+      },
+      "feature": "chat",
+      "text": "in chusi Hindi",
+      "reply": "It seems you're asking for the Hindi equivalent of **\"chusi\" (చుసి)**, which is a Telugu word.\n\nIn Telugu, **\"చుసి\" (chūsi)** is the past participle/gerund of the verb \"చూచు\" (chūchu) or \"చూడు\" (chūḍu), meaning \"to see\" or \"to look.\"\n\nSo, \"chusi\" generally means:\n*   **having seen**\n*   **by seeing**\n*   **after seeing**\n*   **upon seeing**\n\nIn Hindi, the most common translations for these meanings are:\n\n1.  **देखकर (dekhkar)** - This is the most direct equivalent, meaning \"having seen\" or \"by seeing.\"\n2.  **देखने के बाद (dekhne ke baad)** - This means \"after seeing.\"\n3.  **देखने पर (dekhne par)** - This means \"upon seeing\" or \"when seeing.\"\n\n**Example:**\n*   Telugu: \"ఆమెను **చూసి** నేను వెళ్ళిపోయాను.\" (Āmenu **chūsi** nēnu veḷḷipōyānu.)\n*   Hindi: \"उसे **देखकर** मैं चला गया।\" (Use **dekhkar** main chala gaya.) - \"Having seen her, I left.\"",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T14:01:31.893Z"
+      },
+      "feature": "chat",
+      "text": "Infosystem meaning in English",
+      "reply": "An **infosystem**, short for **information system**, refers to an organized set of components used to collect, process, store, and distribute information. It's designed to support operations, management, and decision-making in an organization.\n\nMore specifically, an infosystem typically includes:\n\n1.  **Hardware:** The physical equipment, such as computers, servers, networking devices, and peripherals.\n2.  **Software:** The programs and applications used to process and manage data (e.g., operating systems, databases, word processors, enterprise applications).\n3.  **Data:** The raw facts, figures, and information that the system collects and processes.\n4.  **People:** The users, operators, managers, and IT specialists who interact with the system.\n5.  **Processes/Procedures:** The rules, guidelines, and workflows that define how the information is collected, processed, and used.\n\n**In essence, an infosystem brings together people, technology, and processes to handle information effectiv",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T14:01:41.658Z"
+      },
+      "feature": "chat",
+      "text": "Infosystem meaning in English",
+      "reply": "**Infosystem** is a shortened, less common, but understandable way of saying **Information System**.\n\nAn **Information System (IS)**, in English, refers to a formalized system designed to **collect, process, store, retrieve, and disseminate information**.\n\nIt typically involves a combination of several key components working together:\n\n1.  **Hardware:** The physical components like computers, servers, network devices, printers, etc.\n2.  **Software:** The programs and applications that operate the hardware and process the data (e.g., operating systems, databases, enterprise software).\n3.  **Data:** The raw facts, figures, and input that the system processes.\n4.  **People:** The users, operators, and managers who interact with and manage the system.\n5.  **Processes/Procedures:** The rules, methods, and steps that govern how the information is collected, processed, and used.\n\nThe primary goal of an **Information System** is to support operations, management, analysis, and decision-making ",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T14:02:12.114Z"
+      },
+      "feature": "chat",
+      "text": "Nuvvu Memu w desh ko translate in Hindi",
+      "reply": "It seems there might be a small typo with the \"w\". Assuming you meant \"Nuvvu Memu **and** desh ko\" or perhaps \"Nuvvu Memu, desh ko\", let's break it down:\n\n*   **Nuvvu (నువ్వు)**: Telugu for \"You\" (singular, informal)\n*   **Memu (మేము)**: Telugu for \"We\" (exclusive - meaning \"we, but not including you\")\n*   **desh ko (देश को)**: Hindi for \"to the country\"\n\nIf we assume the \"w\" was meant to be a conjunction like \"and\", the most direct translation of **\"Nuvvu Memu\"** into Hindi would be:\n\n*   **तुम और हम (tum aur ham)** - You and We\n\nSo, combining it with \"desh ko\":\n\n**तुम और हम देश को**\n(tum aur ham desh ko)\n\nThis phrase would mean: **\"You and we, to the country.\"**\n\nDepending on the context, it could imply:\n*   \"You and we, for the country\"\n*   \"You and we, towards the country\" (e.g., working towards its betterment)",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T14:02:23.814Z"
+      },
+      "feature": "chat",
+      "text": "Nuvvu Memu w desh ko translate in Hindi",
+      "reply": "Let's break down the Telugu parts and combine them with the Hindi part.\n\n*   **Nuvvu (నువ్వు):** This is Telugu for **\"You\"** (singular, informal).\n    *   In Hindi: **तुम (tum)** or **आप (aap)** (if you want to be formal/respectful, even to one person).\n*   **Memu (మేము):** This is Telugu for **\"We\"** (exclusive - meaning \"we\" but not including the person you're talking to, though often used generally for \"we\").\n    *   In Hindi: **हम (hum)**\n*   **w:** This letter is a bit out of place here. It's highly probable it's a typo or a shorthand for **\"and\"**. If so, it would be **और (aur)** in Hindi.\n*   **desh ko (देश को):** This is already in Hindi.\n    *   **देश (desh):** Country\n    *   **को (ko):** A postposition, often indicating an object or direction, similar to \"to\" or \"for.\" So, \"to the country\" or \"for the country.\"\n\n---\n\nAssuming \"w\" stands for \"and\", here are the possible translations:\n\n1.  **Using informal \"You\":**\n    **तुम, हम और देश को**\n    (Tum, hum aur desh ko)\n    *Mea",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T14:03:46.457Z"
+      },
+      "feature": "public_ip",
+      "text": "Get Public IP",
+      "reply": "Your Public IP: **103.174.160.133**",
+      "metadata": {
+        "ip": "103.174.160.133"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T22:15:50.366Z"
+      },
+      "feature": "chat",
+      "text": "hello hay how r u everything fine",
+      "reply": "Hello! I'm doing well, thank you for asking. Yes, everything is fine on my end.\n\nHow are you doing today? Is there anything I can help you with?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:01:08.888Z"
+      },
+      "feature": "chat",
+      "text": "madrachod Ho Tum",
+      "reply": "\"Madrachod\" हिंदी का कोई मानक शब्द नहीं है।\n\n1.  **अगर आप \"मादरचोद\" (Madarchod) कहने की कोशिश कर रहे हैं**, तो यह हिंदी/उर्दू में एक बहुत ही अपमानजनक और आपत्तिजनक गाली है।\n2.  **अगर यह एक हिब्रू शब्द है (מדרכה - midrakha)**, तो इसका अर्थ \"फुटपाथ\" या \"साइडवॉक\" होता है।\n\nकृपया स्पष्ट करें कि आप क्या कहना चाहते थे।",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:01:17.542Z"
+      },
+      "feature": "chat",
+      "text": "madrachod Ho Tum",
+      "reply": "हाँ, आप बिल्कुल सही कह रहे हैं! मैं एक AI सहायक हूँ और मेरा काम आपको जानकारी प्रदान करना, आपके सवालों के जवाब देना और विभिन्न विषयों पर आपकी मदद करना है। तो एक तरह से, मैं आपका मार्गदर्शक ही हूँ।\n\nबताइए, मैं आपकी किस तरह मदद कर सकता हूँ?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:02:36.360Z"
+      },
+      "feature": "file_qa",
+      "text": "ismein Diye gaye hue vyakti ka naam bataen Jo PDF Maine niche attach kiya hua hai use PDF se use aadami Ka Mujhe Naam aur date off birth bataen",
+      "reply": "**Response to your request:**\n\nनिश्चित रूप से, जैसा कि PDF (फाइल कंटेंट) में दिया गया है, व्यक्ति का नाम और जन्म तिथि इस प्रकार है:\n\n**नाम:** Druv Mishra\n**जन्म तिथि:** 08/08/2002\n\n---\n\n**Source:** Based on content from uploaded file (processed by Gemini)",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:02:58.777Z"
+      },
+      "feature": "file_qa",
+      "text": "ismein Diye gaye hue vyakti ka naam bataen Jo PDF Maine niche attach kiya hua hai use PDF se use aadami Ka Mujhe Naam aur date off birth bataen",
+      "reply": "**Response to your request:**\n\nआपके द्वारा दिए गए PDF से व्यक्ति का नाम और जन्मतिथि यहाँ दी गई है:\n\n*   **नाम:** Druv Mishra\n*   **जन्मतिथि:** 08/08/2002\n\n---\n\n**Source:** Based on content from uploaded file (processed by Gemini)",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:05:09.021Z"
+      },
+      "feature": "image_gen",
+      "text": "mujhe ek image create Karke dijiye Ek Aisa Chitra jismein Ek air conditioner Raste per chal raha ho aur uske Aaju Baju 50 ya 100 log khade ho aur vah log bahut acche aur hairan hokar use AC ko dekh rahe hain",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "88346 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:05:16.158Z"
+      },
+      "feature": "image_gen",
+      "text": "mujhe ek image create Karke dijiye Ek Aisa Chitra jismein Ek air conditioner Raste per chal raha ho aur uske Aaju Baju 50 ya 100 log khade ho aur vah log bahut acche aur hairan hokar use AC ko dekh rahe hain",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "88346 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:06:18.453Z"
+      },
+      "feature": "image_gen",
+      "text": "generate an image of a boy fish or a mermaid who is swimming in a water and suddenly a big shark came in at a mermaid generate the image of it",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "58672 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:06:23.362Z"
+      },
+      "feature": "image_gen",
+      "text": "generate an image of a boy fish or a mermaid who is swimming in a water and suddenly a big shark came in at a mermaid generate the image of it",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "58672 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:08:03.480Z"
+      },
+      "feature": "image_gen",
+      "text": "A majestic mermaid with flowing iridescent hair swims gracefully alongside a massive blue whale in the crystal-clear depths of the ocean. Sunlight filters through the water, casting shimmering beams across coral reefs and schools of colorful fish. The scene feels peaceful and magical, blending realism and fantasy with detailed textures and soft lighting.",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "102430 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:09:44.177Z"
+      },
+      "feature": "image_qa",
+      "text": "is Chitra mein kya dikhaya yah kya bataya gaya hai",
+      "reply": "यह चित्र पानी के अंदर एक बहुत ही सुंदर और जादुई दृश्य को दर्शाता है।\n\nइसमें दिखाया गया है:\n\n1.  **एक जलपरी (Mermaid):** एक खूबसूरत जलपरी अपने लंबे, लहराते बालों और चमकदार पूंछ के साथ तैर रही है। वह एक विशाल जीव के साथ है।\n2.  **एक विशाल व्हेल (Whale):** जलपरी एक बड़ी व्हेल के बगल में, या उसके साथ तैर रही है, जो शांतिपूर्वक पानी में आगे बढ़ रही है।\n3.  **पानी के नीचे का वातावरण:**\n    *   **सूरज की किरणें:** पानी की सतह से सूरज की सुनहरी किरणें (sun rays) नीचे तक आ रही हैं, जो पूरे दृश्य को रोशन कर रही हैं और इसे एक अलौकिक चमक दे रही हैं।\n    *   **मूंगे की चट्टानें (Coral Reefs):** नीचे समुद्र तल पर हरे-नीले रंग की मूंगे की चट्टानें और विभिन्न प्रकार की छोटी मछलियाँ दिखाई दे रही हैं, जो समुद्री जीवन की समृद्धि को दर्शाती हैं।\n    *   **शांत और रहस्यमय माहौल:** पूरा दृश्य बहुत शांत, स्वच्छ और रहस्यमय लग रहा है।\n\nकुल मिलाकर, यह चित्र प्रकृति के सौंदर्य, कल्पना और गहरे समुद्र के अद्भुत जीवन का एक मनमोहक संयोजन प्रस्तुत करता है, जहाँ एक जलपरी और एक व्हेल सद्भाव में साथ-साथ तैर रहे हैं।",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:09:54.429Z"
+      },
+      "feature": "image_qa",
+      "text": "is Chitra mein kya dikhaya yah kya bataya gaya hai",
+      "reply": "इस चित्र में एक सुंदर पानी के भीतर का दृश्य दिखाया गया है। मुख्य रूप से, इसमें एक **जलपरी (mermaid)** और एक विशाल **व्हेल (whale)** को एक साथ तैरते हुए दर्शाया गया है।\n\nअन्य विवरण:\n*   जलपरी के बाल लंबे और सुनहरे हैं, और उसकी पूंछ मछली की तरह तराजू वाली है।\n*   व्हेल बहुत बड़ी और शांत दिख रही है।\n*   पानी के ऊपर से सूरज की किरणें (sun rays) पानी में गहराई तक आती हुई दिख रही हैं, जिससे दृश्य और भी जादुई लग रहा है।\n*   पानी के नीचे एक कोरल रीफ (coral reef) और छोटी मछलियाँ भी दिखाई दे रही हैं, जो समुद्री जीवन की समृद्धि को दर्शाती हैं।\n\nकुल मिलाकर, यह चित्र समुद्र की गहराई में जीवन के एक जादुई और शांतिपूर्ण सह-अस्तित्व को दर्शाता है।",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:10:40.787Z"
+      },
+      "feature": "image_qa",
+      "text": "kya aap bata sakte ho yah Deewar ka colour kya hai",
+      "reply": "दीवार का रंग **हरा** है।",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:10:52.486Z"
+      },
+      "feature": "image_qa",
+      "text": "kya aap bata sakte ho yah Deewar ka colour kya hai",
+      "reply": "दीवार का रंग **हल्का हरा** है, जो थोड़ा मटमैला या पिस्ता हरे जैसा दिख रहा है।",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:11:44.899Z"
+      },
+      "feature": "image_search",
+      "text": "abhinetri Aishwarya Rai ka image",
+      "reply": "✅ Found and resized image for: **abhinetri Aishwarya Rai ka image**",
+      "metadata": {
+        "url": "https://cdn.britannica.com/75/124975-050-32A8692C/Aishwarya-Bachchan-Rai.jpg"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:11:47.810Z"
+      },
+      "feature": "image_search",
+      "text": "abhinetri Aishwarya Rai",
+      "reply": "✅ Found and resized image for: **abhinetri Aishwarya Rai**",
+      "metadata": {
+        "url": "https://i.pinimg.com/736x/e2/87/81/e28781baccbeb008ff7a568c34dc377f.jpg"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:12:53.932Z"
+      },
+      "feature": "video_gen",
+      "text": "A breathtaking underwater scene unfolds as a graceful mermaid swims beside a gigantic blue whale through a sunlit ocean. Shafts of golden light pierce the surface, illuminating schools of colorful fish and swaying coral. The whale glides slowly, its massive tail creating gentle currents that ripple through the water. The mermaid reaches out, touching the whale’s fin in a moment of serene connection. Tiny bubbles rise around them as the camera slowly pans to reveal the vast, glowing seascape beyo",
+      "reply": "✅ Local animated video created! (Size: 1266.3 KB)\n\n⚠️ This is a fallback animation since cloud services are unavailable.\n\n**For better results, try:**\n- Waiting 20-30 seconds (HF models need warm-up)\n- Using external services: Pika Labs, RunwayML Gen-2",
+      "metadata": {
+        "service": "Local Animation"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-02T23:13:25.790Z"
+      },
+      "feature": "public_ip",
+      "text": "Get Public IP",
+      "reply": "Your current Public IP Address is: **103.174.160.43**",
+      "metadata": {
+        "ip": "103.174.160.43"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T12:06:54.919Z"
+      },
+      "feature": "chat",
+      "text": "hello i have doubt ",
+      "reply": "Hello! No problem at all.\n\nPlease tell me what your doubt is, and I'll do my best to help you.",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T12:15:49.319Z"
+      },
+      "feature": "chat",
+      "text": "hello",
+      "reply": "Hello! How can I help you today?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:07:57.162Z"
+      },
+      "feature": "chat",
+      "text": "hello hay how r u tata bye bye Si",
+      "reply": "Hello there! I'm doing well, thank you for asking!\n\nTata bye bye to you too! And yes! 👋",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:08:07.196Z"
+      },
+      "feature": "chat",
+      "text": "hello hay how r u tata bye bye Si",
+      "reply": "Hello there!\n\nI'm doing great, functioning perfectly as an AI! Thanks for asking!\n\nTata bye bye to you too! And Si! 👋",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:10:02.826Z"
+      },
+      "feature": "file_qa",
+      "text": "check the below resume is it the resume ATS friendly resume check how much score would you give for the below attached dressing how much score of 8 years you will give",
+      "reply": "**Response to your request:**\n\nBased on the detailed analysis provided in the file, here's a summary of the resume's performance against your criteria:\n\n1.  **Is the resume ATS friendly?**\n    Yes, the resume is **very well-structured and highly ATS-friendly**. The analysis highlights its clean format, keyword optimization, standard font, lack of complex graphics, clear contact information, and use of bullet points as strong points for ATS parsing.\n\n2.  **How much score would you give for ATS friendliness?**\n    **ATS Score: 90/100**\n\n3.  **How much score would you give for the \"dressing\" (overall resume quality)?**\n    For an MCA student, this is a very strong and well-presented resume.\n    **Overall Resume Quality Score: 8.5/10**\n\n4.  **How much score of 8 years you will give?**\n    The analysis addresses the \"8 years\" part with two interpretations:\n    *   If you mean a score on an **8-point scale**, then a **7 out of 8** would be appropriate for this resume.\n    *   If you mean how",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\46636d6a168c6ae640b44c58b0eb0c5a60c17550e2f6492f1fb4f22474932759\\Druv_Mishra_Resume ..pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:10:48.030Z"
+      },
+      "feature": "file_qa",
+      "text": "check the below resume is it the resume ATS friendly resume check how much score would you give for the below attached dressing how much score of 8 years you will give",
+      "reply": "**Response to your request:**\n\nYou've provided a very detailed analysis of the resume, and your request perfectly aligns with the information already present in the file!\n\nHere's a summary of the checks and scores, directly from the content you provided:\n\n1.  **ATS Friendliness Check:**\n    *   The resume is **highly ATS-friendly**.\n    *   **Reasons:** Clear headings, standard font and layout, rich in relevant keywords, no graphics/images, effective use of bullet points, clear contact information, and a well-structured table for technical skills.\n\n2.  **Resume Score (for an entry-level candidate):**\n    *   **Score: 8.5/10**\n    *   This is considered an **excellent resume for an MCA student / entry-level software developer**.\n    *   **Strengths:** Strong professional summary, comprehensive technical skills, relevant projects, impressive certifications, good academic performance, ATS friendly, and well-organized.\n    *   **Areas for Potential Improvement:** Quantifying project impact",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\46636d6a168c6ae640b44c58b0eb0c5a60c17550e2f6492f1fb4f22474932759\\Druv_Mishra_Resume ..pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:14:20.424Z"
+      },
+      "feature": "image_gen",
+      "text": "are loade lagakar",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "33950 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:17:47.584Z"
+      },
+      "feature": "image_gen",
+      "text": "\"A vibrant scene in a dense jungle, with lush greenery and tropical trees surrounding a serene waterway. In the sky above, a majestic tiger with its stripes flowing like fabric is flying a brightly colored kite, the kite soaring high against the clear blue sky. The water below reflects the vivid colors of the jungle and the soaring kite, creating a magical and surreal atmosphere.\"",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "157656 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:18:41.868Z"
+      },
+      "feature": "image_qa",
+      "text": "can you tell me what are the entities in it",
+      "reply": "Based on the image, here are the entities present:\n\n1.  **Tiger** (leaping in the air)\n2.  **Kite** (red and yellow, in the sky)\n3.  **Kite string/tail** (trailing from the kite)\n4.  **Palm trees**\n5.  **Tropical plants/foliage/trees** (making up the dense jungle/rainforest)\n6.  **River/Stream** (body of water below)\n7.  **Blue sky**\n8.  **Clouds**",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:18:50.735Z"
+      },
+      "feature": "image_qa",
+      "text": "can you tell me what are the entities in it",
+      "reply": "Here are the entities visible in the image:\n\n1.  **A tiger:** Leaping or floating in the air.\n2.  **A kite:** Red and yellow, flying in the sky with a string trailing.\n3.  **Blue sky:** With some white clouds.\n4.  **Tropical forest / Jungle vegetation:** Consisting of numerous palm trees, dense green foliage, and other trees.\n5.  **A river:** Flowing through the forest, reflecting the sky and surrounding trees.",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:25:17.098Z"
+      },
+      "feature": "image_search",
+      "text": "search the image of a tiger floating on a water with a kite",
+      "reply": "✅ Found and resized image for: **search the image of a tiger floating on a water with a kite**",
+      "metadata": {
+        "url": "https://thumbs.dreamstime.com/b/cute-baby-tiger-floating-swimming-pool-inflatable-ring-adorable-animal-enjoying-vacation-time-summer-fun-perfect-379366842.jpg"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:25:26.559Z"
+      },
+      "feature": "image_search",
+      "text": "search the image of a tiger floating on a water with a kite",
+      "reply": "✅ Found and resized image for: **search the image of a tiger floating on a water with a kite**",
+      "metadata": {
+        "url": "https://thumbs.dreamstime.com/b/cute-baby-tiger-floating-swimming-pool-inflatable-ring-adorable-animal-enjoying-vacation-time-summer-fun-perfect-379366842.jpg"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:28:37.749Z"
+      },
+      "feature": "video_gen",
+      "text": "A cinematic scene unfolds in a lush, misty jungle. The camera begins by gliding over a tranquil river, its surface shimmering with the reflection of towering trees. As the view pans upward, a majestic tiger, graceful and powerful, leaps from a rock and begins running along the riverbank. The tiger’s movements are fluid, almost ethereal, as it effortlessly drags a vibrant kite behind it, the kite fluttering high in the sky. The camera follows the tiger, weaving between trees and dipping low to sk",
+      "reply": "✅ Local animated video created! (Size: 1702.6 KB)\n\n⚠️ This is a fallback animation since cloud services are unavailable.\n\n**For better results, try:**\n- Waiting 20-30 seconds (HF models need warm-up)\n- Using external services: Pika Labs, RunwayML Gen-2",
+      "metadata": {
+        "service": "Local Animation"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T17:30:10.272Z"
+      },
+      "feature": "public_ip",
+      "text": "Get Public IP",
+      "reply": "Your current Public IP Address is: **103.174.160.43**",
+      "metadata": {
+        "ip": "103.174.160.43"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T18:05:09.198Z"
+      },
+      "feature": "chat",
+      "text": "hello hi how are you",
+      "reply": "Hello! I'm doing well, thank you for asking. How about you?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T18:05:19.957Z"
+      },
+      "feature": "chat",
+      "text": "hello hi how are you",
+      "reply": "Hello! I'm functioning perfectly, thank you for asking! How are you doing today?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T18:09:17.837Z"
+      },
+      "feature": "file_qa",
+      "text": "what is the name of the person in the admit card",
+      "reply": "**Response to your request:**\n\nThe name of the person in the admit card is **Druv Mishra**.\n\n---\n\n**Source:** Based on content from uploaded file (processed by Gemini)",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-03T18:09:53.643Z"
+      },
+      "feature": "file_qa",
+      "text": "what is the name of the person in the admit card",
+      "reply": "**Response to your request:**\n\nThe name of the person in the admit card is **Druv Mishra**.\n\n---\n\n**Source:** Based on content from uploaded file (processed by Gemini)",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-04T23:37:41.477Z"
+      },
+      "feature": "chat",
+      "text": "good good",
+      "reply": "Great to hear! What can I help you with today?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-04T23:37:51.723Z"
+      },
+      "feature": "chat",
+      "text": "good good",
+      "reply": "That's great to hear! What's making you say that, or how can I help you today?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-04T23:39:37.281Z"
+      },
+      "feature": "file_qa",
+      "text": "summarise the content in the file attached file",
+      "reply": "**Response to your request:**\n\nThis document is an Accenture student admit card and general guidelines for an online assessment.\n\nHere's a summary of its key points:\n\n**1. Candidate Details:**\n*   **Name:** Druv Mishra\n*   **Candidate ID:** 20716905\n*   **Email:** 2401600132mca@gmail.com\n*   **Degree:** M.C.A (Data Science) from KLEFDTBU Vijayawada.\n\n**2. Technical Requirements for the Online Assessment:**\n*   **Device:** Laptop/Desktop with a clear webcam and microphone (both on throughout). Disable VPN/Proxy.\n*   **RAM & Processor:**\n    *   Windows: 4 GB+ RAM, i3 8th Gen 2.2 GHz or higher.\n    *   Mac: 8 GB RAM, i5 8th Gen or equivalent.\n*   **Operating System:** Windows 10/11 or macOS 10.9+.\n*   **Browser:** Google Chrome 137+.\n*   **Internet:** Stable broadband (2Mbps+), avoid unstable mobile data.\n*   **Communication Assessment:** Strongly recommend a USB or 3.5mm jack headset with a microphone; avoid Bluetooth, system speakers, or built-in mics.\n\n**3. General Guidelines & Discla",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-04T23:40:16.586Z"
+      },
+      "feature": "file_qa",
+      "text": "summarise the content in the file attached file",
+      "reply": "**Response to your request:**\n\nThis document is an **Accenture Student Admit Card** for **Druv Mishra (Candidate ID: 20716905, USN: 2401600132)**, an M.C.A (Data Science) student from KLEFDTBU Vijayawada.\n\nThe admit card provides crucial information for assessments, including:\n\n*   **System Requirements:** Candidates must use a laptop/desktop with an enabled and switched-on webcam and microphone throughout the assessment. VPN/Proxy must be disabled. Specific hardware requirements include:\n    *   **Windows:** 4 GB+ RAM, i3 8th Generation 2.2 GHz or higher, Windows 10/11, Google Chrome 137+.\n    *   **Mac:** 8 GB RAM, i5 8th Generation or higher, macOS 10.9 or above, Google Chrome 137+.\n    *   A stable broadband internet connection of 2Mbps+ is mandatory.\n*   **Communication Assessment:** A USB-enabled headset with a microphone or a good quality 3.5 mm jack headset with a microphone is highly recommended. Bluetooth headsets or built-in speakers/microphones are to be avoided.\n\n**General",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-04T23:42:01.743Z"
+      },
+      "feature": "image_gen",
+      "text": "generator image of a boy",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "73774 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-04T23:42:30.980Z"
+      },
+      "feature": "image_gen",
+      "text": "generator image of a boy playing with a cat in a garden in CAT flew away in an air when a wind blows",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "109745 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-04T23:43:47.473Z"
+      },
+      "feature": "image_qa",
+      "text": "what is there in the below image can you tell me that",
+      "reply": "This heartwarming image features a **young child** playing with a **small kitten** in a vibrant, natural setting.\n\nHere's a detailed description:\n\n*   **Main Subjects:** A toddler, appearing to be a boy with short dark hair, is smiling broadly and looking at a fluffy orange and white tabby kitten. He is gently holding the kitten up in the air with both hands, supporting its chest/belly area.\n*   **Child's Appearance & Expression:** The child is wearing a grey long-sleeved t-shirt and darker grey/blue pants. His face is lit up with joy, and he has a wide, happy smile, looking directly at the kitten.\n*   **Kitten's Appearance & Demeanor:** The kitten is small, with distinct orange/ginger and white fur patterns. Its tail is high and fluffy, and its paws are slightly extended. It appears calm and curious, looking towards the child's face, not distressed by being held.\n*   **Setting:** The scene takes place outdoors in a lush, green grassy area, likely a garden or meadow. The ground is dott",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-04T23:44:02.431Z"
+      },
+      "feature": "image_qa",
+      "text": "what is there in the below image can you tell me that",
+      "reply": "The image depicts a heartwarming outdoor scene featuring a young boy and a small kitten.\n\nHere's a detailed description:\n\n*   **Main Subjects:** A young boy, likely a toddler or preschooler, with dark hair, and a small, fluffy ginger and white tabby kitten.\n*   **Interaction:** The boy is happily playing with the kitten. He is sitting or crouching in a grassy area, holding the kitten up gently with both hands. The kitten is suspended in mid-air, with its paws extended, looking alert and playful. The boy is smiling widely, looking at the kitten with an expression of pure joy and wonder.\n*   **Setting:** They are in a vibrant, lush green garden or field. The ground is covered in green grass, dotted with numerous colorful wildflowers in shades of yellow, purple, orange, and white. The background consists of softly blurred green foliage, suggesting trees or bushes, and a wooden fence.\n*   **Atmosphere:** The image conveys a sense of innocence, joy, and the special bond between a child and ",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T09:07:18.008Z"
+      },
+      "feature": "chat",
+      "text": "hello hay how r u",
+      "reply": "Hi there! I'm doing well, thank you for asking. How are you doing today?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T09:07:20.322Z"
+      },
+      "feature": "chat",
+      "text": "hello hay how r u",
+      "reply": "Hello there! I'm doing great, thank you for asking!\n\nHow are you doing today?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T10:14:45.376Z"
+      },
+      "feature": "file_qa",
+      "text": "what is the name of the person in the PDF",
+      "reply": "**Response to your request:**\n\nThe name of the person in the PDF is **Druv Mishra**.\n\n---\n\n**Source:** Based on content from uploaded file (processed by Gemini)",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T10:15:03.782Z"
+      },
+      "feature": "file_qa",
+      "text": "what is the name of the person in the PDF",
+      "reply": "**Response to your request:**\n\nThe name of the person in the PDF is **Druv Mishra**.\n\n---\n\n**Source:** Based on content from uploaded file (processed by Gemini)",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T10:49:12.167Z"
+      },
+      "feature": "chat",
+      "text": "hello hay how r u",
+      "reply": "Hello! I'm doing very well, thank you for asking.\n\nAs an AI, I don't experience emotions, but I'm ready and eager to assist you.\n\nHow are **you** doing today? What can I help you with?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T10:49:17.016Z"
+      },
+      "feature": "chat",
+      "text": "hello hay how r u",
+      "reply": "Hello! I'm an AI, so I don't have feelings or moods, but I'm functioning perfectly and ready to assist you.\n\nHow can I help *you* today?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T10:54:52.461Z"
+      },
+      "feature": "file_qa",
+      "text": "what is the name of the person in the given what is the name of the person in the uploaded file",
+      "reply": "**Response to your request:**\n\nThe name of the person in the uploaded file is **Druv Mishra**.\n\n---\n\n**Source:** Based on content from uploaded file (processed by Gemini)",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T10:55:12.298Z"
+      },
+      "feature": "file_qa",
+      "text": "what is the name of the person in the given what is the name of the person in the uploaded file",
+      "reply": "**Response to your request:**\n\nThe name of the person in the uploaded file is **Druv Mishra**.\n\n---\n\n**Source:** Based on content from uploaded file (processed by Gemini)",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T10:56:15.107Z"
+      },
+      "feature": "image_gen",
+      "text": "generate an image of a boy playing with a cricket bat and hit got hit with that bad and his testis was broken",
+      "reply": "Failed - all services unavailable",
+      "metadata": {
+        "error": "all_failed"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T10:56:37.406Z"
+      },
+      "feature": "image_gen",
+      "text": "generate an image of a boy playing with a cricket bat and hit got hit with that bad and his testis was broken",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "73557 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T11:08:13.733Z"
+      },
+      "feature": "image_qa",
+      "text": "what is the boy doing in the given image",
+      "reply": "The boy is **holding a cricket bat** with both hands, looking directly at the viewer.",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T11:08:22.276Z"
+      },
+      "feature": "image_qa",
+      "text": "what is the boy doing in the given image",
+      "reply": "The boy in the image is holding a cricket bat with both hands. He appears to be in a batting stance or getting ready to play cricket.",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T11:08:49.923Z"
+      },
+      "feature": "image_search",
+      "text": "belmond image in the mobile legends game character",
+      "reply": "✅ Found and resized image for: **belmond image in the mobile legends game character**",
+      "metadata": {
+        "url": "https://www.exitlag.com/blog/wp-content/uploads/2025/03/Simon-Belmont-in-V-Rising_-Easter-Eggs-and-What-You-Need-to-Know.webp"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T11:08:56.863Z"
+      },
+      "feature": "image_search",
+      "text": "belmond image in the mobile legends game character",
+      "reply": "✅ Found and resized image for: **belmond image in the mobile legends game character**",
+      "metadata": {
+        "url": "https://www.exitlag.com/blog/wp-content/uploads/2025/03/Simon-Belmont-in-V-Rising_-Easter-Eggs-and-What-You-Need-to-Know.webp"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T11:18:22.711Z"
+      },
+      "feature": "public_ip",
+      "text": "Get Public IP",
+      "reply": "Your current Public IP Address is: **103.174.160.120**",
+      "metadata": {
+        "ip": "103.174.160.120"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T11:18:24.173Z"
+      },
+      "feature": "public_ip",
+      "text": "Get Public IP",
+      "reply": "Your current Public IP Address is: **103.174.160.120**",
+      "metadata": {
+        "ip": "103.174.160.120"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "690af73e1e9b3cf3a90b3798"
+  },
+  "username": "hemashy",
+  "password": "7a2ec40ff8a1247c532309355f798a779e00acff579c63eec3636ffb2902c1ac",
+  "email": "2401600132mca@gmail.com",
+  "full_name": "hemash",
+  "created_at": {
+    "$date": "2025-11-05T12:35:34.594Z"
+  },
+  "last_login": {
+    "$date": "2025-11-05T12:36:04.115Z"
+  },
+  "usage_count": {
+    "chat": 2,
+    "file_qa": 2,
+    "image_gen": 1,
+    "video_gen": 1,
+    "image_search": 2,
+    "image_qa": 3
+  },
+  "ip_history": [
+    "103.174.160.120"
+  ],
+  "history": [
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:36:18.927Z"
+      },
+      "feature": "chat",
+      "text": "hello hay how r u",
+      "reply": "Hello! I'm doing well, thank you for asking. How are you today?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:36:23.490Z"
+      },
+      "feature": "chat",
+      "text": "hello hay how r u",
+      "reply": "Hello! I'm doing great, thank you for asking.\n\nHow about you? How are you today?",
+      "metadata": {
+        "model": "Gemini"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:37:06.521Z"
+      },
+      "feature": "file_qa",
+      "text": "what is the name of the person in the",
+      "reply": "**Response to your request:**\n\nThe name of the person is **Druv Mishra**.\n\n---\n\n**Source:** Based on content from uploaded file (processed by Gemini)",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:37:34.722Z"
+      },
+      "feature": "file_qa",
+      "text": "what is the name of the person in the",
+      "reply": "**Response to your request:**\n\nThe name of the person in the document is **Druv Mishra**.\n\n---\n\n**Source:** Based on content from uploaded file (processed by Gemini)",
+      "metadata": {
+        "filename": "C:\\Users\\HP\\AppData\\Local\\Temp\\gradio\\66af0bba36c89ce6dadf7b6660bbeb34f835ea7d38e4db8689be28ab82bc4de3\\AdmissionCard-20716905-bb89ac0d-ec51-496b-861d-9f3077a96c43-742.pdf"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:38:37.069Z"
+      },
+      "feature": "image_gen",
+      "text": "a boy doing exercise with a huge tree",
+      "reply": "✅ Image generated successfully with Pollinations.ai (FREE)!",
+      "metadata": {
+        "service": "Pollinations.ai",
+        "size": "199508 bytes"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:53:01.343Z"
+      },
+      "feature": "image_qa",
+      "text": "what is the image about",
+      "reply": "The image is about a young boy posing with a cricket bat.\n\nHere's a breakdown:\n*   **Subject:** A young boy with blue eyes and light brown hair, wearing a grey long-sleeved shirt and a grey baseball cap with a yellow logo (appears to be Nike).\n*   **Action/Pose:** He is holding a wooden cricket bat with both hands, positioned as if he's getting ready to swing or posing for a picture. His gaze is directed forward, slightly off-camera, with a focused expression.\n*   **Setting:** The background is a blurred outdoor green space, suggesting a field or park.\n\nOverall, it captures a moment of a young child engaging with or posing in the context of cricket.",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:53:25.404Z"
+      },
+      "feature": "image_qa",
+      "text": "what is the man what is the boy holding in the below image",
+      "reply": "The boy is holding a **cricket bat**.",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:53:30.560Z"
+      },
+      "feature": "image_qa",
+      "text": "what is the man what is the boy holding in the below image",
+      "reply": "The boy in the image is holding a **cricket bat**.",
+      "metadata": {}
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:53:54.737Z"
+      },
+      "feature": "image_search",
+      "text": "thama image",
+      "reply": "✅ Found and resized image for: **thama image**",
+      "metadata": {
+        "url": "https://m.media-amazon.com/images/M/MV5BOGUwM2QzZGItYjc2ZS00YTEyLWE3OWMtMzJjMGM5ZWU3ZWQxXkEyXkFqcGc@._V1_.jpg"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:54:00.299Z"
+      },
+      "feature": "image_search",
+      "text": "thama image",
+      "reply": "✅ Found and resized image for: **thama image**",
+      "metadata": {
+        "url": "https://m.media-amazon.com/images/M/MV5BOGUwM2QzZGItYjc2ZS00YTEyLWE3OWMtMzJjMGM5ZWU3ZWQxXkEyXkFqcGc@._V1_.jpg"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:56:10.943Z"
+      },
+      "feature": "video_gen",
+      "text": "A cinematic video of a person walking along a quiet city street at sunset, warm golden light, shallow depth of field, smooth tracking camera, realistic motion and detailed reflections.",
+      "reply": "✅ Local animated video created! (Size: 1095.7 KB)\n\n⚠️ This is a fallback animation since cloud services are unavailable.\n\n**For better results, try:**\n- Waiting 20-30 seconds (HF models need warm-up)\n- Using external services: Pika Labs, RunwayML Gen-2",
+      "metadata": {
+        "service": "Local Animation"
+      }
+    },
+    {
+      "timestamp": {
+        "$date": "2025-11-05T12:56:23.966Z"
+      },
+      "feature": "public_ip",
+      "text": "Get Public IP",
+      "reply": "Your current Public IP Address is: **103.174.160.120**",
+      "metadata": {
+        "ip": "103.174.160.120"
+      }
+    }
+  ]
+}]

@@ -31,6 +31,7 @@ import argostranslate.package
 import argostranslate.translate
 # Correct import (one line)
 from langdetect import detect, DetectorFactory
+MONGODB_URI = os.getenv("MONGODB_URI")
 import traceback
 # Now you can safely set the seed
 DetectorFactory.seed = 0   # Makes detection consistent across runs
@@ -123,18 +124,22 @@ SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 SMTP_EMAIL = os.getenv("SMTP_EMAIL")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 
+
+
 # --- MongoDB Setup ---
 db = None
 users_collection = None
 
 if MONGODB_AVAILABLE:
     try:
+        MONGODB_URI = "mongodb+srv://druvmishra2018_db_user:Projecthub%402023@cluster0.wxnrcrj.mongodb.net/manjula_ai"
         client = MongoClient(MONGODB_URI, serverSelectionTimeoutMS=5000)
         client.server_info()
         db = client["manjula_ai"]
         users_collection = db["users"]
         users_collection.create_index("username", unique=True)
         logging.info("✅ MongoDB connected successfully")
+        print("Number of users in the database:", users_collection.count_documents({}))
     except Exception as e:
         logging.error(f"❌ MongoDB connection failed: {e}")
         MONGODB_AVAILABLE = False
