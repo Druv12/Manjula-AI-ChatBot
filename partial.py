@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 import requests
 from urllib.parse import quote
-from google import genai
+import google.generativeai as genai
 from google.genai import types
 from datetime import datetime, timedelta
 from PIL import Image
