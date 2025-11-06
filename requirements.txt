@@ -1,0 +1,25 @@
+# ---- Web & App Dependencies ----
+gradio>=4.0.0
+python-dotenv
+google-generativeai
+openai
+requests
+Pillow
+gtts
+argostranslate
+langdetect
+pymongo
+SpeechRecognition
+google-api-python-client
+imageio
+imageio-ffmpeg
+numpy
+urllib3
+
+# ---- ML & Model Dependencies ----
+modelscope>=1.31.0
+addict>=2.4.0
+datasets>=2.11.0
+pyarrow>=10.0.1
+transformers>=4.34.0
+torch>=2.9.0
