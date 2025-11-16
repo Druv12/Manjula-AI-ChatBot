@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 import requests
 from urllib.parse import quote
-import google.generativeai as genai
-from google.genai import types
+from google.ai import generativelanguage as genai
+from google.generativeai.protos import Part
 from datetime import datetime, timedelta
 from PIL import Image
 from PIL.Image import Resampling
@@ -14,12 +14,9 @@ import openai
 from requests.adapters import HTTPAdapter, Retry
 import json
 import hashlib
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-import random
-import string
-import socket
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from datetime import datetime
 import subprocess
 import sys
 from pathlib import Path
@@ -31,6 +28,48 @@ import argostranslate.package
 import argostranslate.translate
 # Correct import (one line)
 from langdetect import detect, DetectorFactory
+import logging
+import google.generativeai as genai
+import os
+import firebase_admin
+from firebase_admin import credentials, auth as firebase_auth
+from flask import Flask, request, jsonify
+import threading
+import random
+import string
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+flask_app = Flask(__name__)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+try:
+    firebase_service_account_path = os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH", "serviceAccountKey.json")
+
+    if os.path.exists(firebase_service_account_path):
+        cred = credentials.Certificate(firebase_service_account_path)
+        try:
+            firebase_admin.get_app()
+            logging.info("✅ Firebase already initialized")
+        except ValueError:
+            firebase_admin.initialize_app(cred)
+            logging.info("✅ Firebase Admin SDK initialized successfully from file")
+    else:
+        firebase_creds_json = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
+        if firebase_creds_json:
+            cred_dict = json.loads(firebase_creds_json)
+            cred = credentials.Certificate(cred_dict)
+            try:
+                firebase_admin.get_app()
+                logging.info("✅ Firebase already initialized")
+            except ValueError:
+                firebase_admin.initialize_app(cred)
+                logging.info("✅ Firebase Admin SDK initialized from environment variable")
+        else:
+            logging.warning("⚠️ Firebase service account not configured. Google Sign-In unavailable.")
+except Exception as e:
+    logging.error(f"❌ Firebase initialization failed: {e}", exc_info=True)
+
 MONGODB_URI = os.getenv("MONGODB_URI")
 import traceback
 # Now you can safely set the seed
@@ -104,6 +143,51 @@ except ImportError:
     logging.warning("⚠️ pymongo not found. Install with: pip install pymongo")
     MONGODB_AVAILABLE = False
 
+# ================================
+# FIREBASE ADMIN SDK SETUP
+# ================================
+FIREBASE_AVAILABLE = False
+
+try:
+    # Option 1: Try service account file path from environment
+    firebase_service_account_path = os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH", "serviceAccountKey.json")
+
+    if os.path.exists(firebase_service_account_path):
+        cred = credentials.Certificate(firebase_service_account_path)
+
+        # Check if Firebase is already initialized
+        try:
+            firebase_admin.get_app()
+            logging.info("✅ Firebase already initialized")
+            FIREBASE_AVAILABLE = True
+        except ValueError:
+            # Not initialized yet, so initialize it
+            firebase_admin.initialize_app(cred)
+            FIREBASE_AVAILABLE = True
+            logging.info("✅ Firebase Admin SDK initialized successfully from file")
+    else:
+        # Option 2: Try JSON string from environment variable
+        firebase_creds_json = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
+        if firebase_creds_json:
+            cred_dict = json.loads(firebase_creds_json)
+            cred = credentials.Certificate(cred_dict)
+
+            try:
+                firebase_admin.get_app()
+                FIREBASE_AVAILABLE = True
+            except ValueError:
+                firebase_admin.initialize_app(cred)
+                FIREBASE_AVAILABLE = True
+                logging.info("✅ Firebase Admin SDK initialized from environment variable")
+        else:
+            logging.warning("⚠️ Firebase service account not configured. Google Sign-In will be unavailable.")
+            FIREBASE_AVAILABLE = False
+
+except Exception as e:
+    FIREBASE_AVAILABLE = False
+    logging.error(f"❌ Firebase initialization failed: {e}")
+    logging.error(traceback.format_exc())
+
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -118,26 +202,24 @@ STABILITY_API_KEY = os.getenv("STABILITY_API_KEY")
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
 GOOGLE_SEARCH_API_KEY = os.getenv("GOOGLE_SEARCH_API_KEY")
 GOOGLE_SEARCH_CX = os.getenv("GOOGLE_SEARCH_CX")
-MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017/")
 SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 SMTP_EMAIL = os.getenv("SMTP_EMAIL")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
-
-
-
 # --- MongoDB Setup ---
 db = None
 users_collection = None
 
 if MONGODB_AVAILABLE:
     try:
-        MONGODB_URI = "mongodb+srv://druvmishra2018_db_user:Projecthub%402023@cluster0.wxnrcrj.mongodb.net/manjula_ai"
+        MONGODB_URI = os.getenv("MONGODB_URI")
         client = MongoClient(MONGODB_URI, serverSelectionTimeoutMS=5000)
         client.server_info()
         db = client["manjula_ai"]
         users_collection = db["users"]
         users_collection.create_index("username", unique=True)
+        users_collection.create_index("email", unique=True)  # ✅ ADD THIS LINE
+        users_collection.create_index("firebase_uid", unique=True, sparse=True)  # ✅ ADD THIS LINE
         logging.info("✅ MongoDB connected successfully")
         print("Number of users in the database:", users_collection.count_documents({}))
     except Exception as e:
@@ -429,10 +511,8 @@ Text to translate:
 
 Translation:"""
 
-        response = GEMINI_CLIENT.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt
-        )
+        model = GEMINI_CLIENT.GenerativeModel('gemini-2.0-flash-exp')
+        response = model.generate_content(prompt)
 
         if response and response.text:
             translated = response.text.strip()
@@ -517,6 +597,352 @@ def hash_password(password):
     """Hash password using SHA-256"""
     return hashlib.sha256(password.encode()).hexdigest()
 
+
+# ================================
+# FIREBASE AUTHENTICATION FUNCTIONS
+# ================================
+
+def verify_firebase_token(id_token):
+    """Verify Firebase ID token with clock skew tolerance"""
+
+    try:
+        firebase_admin.get_app()
+    except ValueError:
+        print("❌ Firebase not initialized")
+        return None
+
+    try:
+        print("Calling Firebase Admin SDK verify_id_token()...")
+
+        # ✅ FIX: Add clock_skew_seconds parameter to handle time differences
+        decoded_token = firebase_auth.verify_id_token(
+            id_token,
+            check_revoked=False,
+            clock_skew_seconds=10  # ✅ Allows 10 seconds tolerance for clock drift
+        )
+
+        print(f"✅ Token decoded successfully")
+        print(f"   UID: {decoded_token.get('uid')}")
+        print(f"   Email: {decoded_token.get('email')}")
+        print(f"   Name: {decoded_token.get('name')}")
+
+        return {
+            "uid": decoded_token['uid'],
+            "email": decoded_token.get('email'),
+            "name": decoded_token.get('name'),
+            "picture": decoded_token.get('picture'),
+            "email_verified": decoded_token.get('email_verified', False)
+        }
+
+    except Exception as e:
+        print(f"❌ Verification error: {type(e).__name__}: {str(e)}")
+        print(traceback.format_exc())
+        return None
+
+def register_or_login_firebase_user(user_info):
+    """Register or login user from Firebase authentication"""
+    global current_session_id, guest_chat_count
+
+    if not MONGODB_AVAILABLE:
+        # Fallback without database
+        current_user["username"] = user_info["email"].split("@")[0]
+        current_user["logged_in"] = True
+        current_user["is_guest"] = False
+        current_user["email"] = user_info["email"]
+        current_user["full_name"] = user_info.get("name", "")
+        return True, "Logged in successfully (no database)"
+
+    try:
+        username = user_info["email"].split("@")[0].lower()
+        email = user_info["email"]
+        full_name = user_info.get("name", "")
+
+        # Check if user exists
+        existing_user = users_collection.find_one({"email": email})
+
+        if existing_user:
+            # Login existing user
+            clear_guest_history()
+            guest_chat_count = 0
+            current_session_id += 1
+
+            users_collection.update_one(
+                {"email": email},
+                {"$set": {"last_login": datetime.now()}}
+            )
+
+            current_user["username"] = existing_user["username"]
+            current_user["logged_in"] = True
+            current_user["is_guest"] = False
+            current_user["email"] = email
+            current_user["full_name"] = existing_user.get("full_name", full_name)
+
+            logging.info(f"✅ Firebase user logged in: {username}")
+            return True, f"Welcome back, {full_name or username}!"
+
+        else:
+            # Register new user
+            new_user = {
+                "username": username,
+                "email": email,
+                "full_name": full_name,
+                "password": None,  # No password for OAuth users
+                "auth_provider": "google",
+                "firebase_uid": user_info["uid"],
+                "profile_picture": user_info.get("picture"),
+                "email_verified": user_info.get("email_verified", False),
+                "created_at": datetime.now(),
+                "last_login": datetime.now(),
+                "usage_count": {
+                    "chat": 0,
+                    "file_qa": 0,
+                    "image_gen": 0,
+                    "video_gen": 0,
+                    "image_search": 0,
+                    "image_qa": 0
+                },
+                "history": [],
+                "ip_history": []
+            }
+
+            users_collection.insert_one(new_user)
+
+            clear_guest_history()
+            guest_chat_count = 0
+            current_session_id += 1
+
+            current_user["username"] = username
+            current_user["logged_in"] = True
+            current_user["is_guest"] = False
+            current_user["email"] = email
+            current_user["full_name"] = full_name
+
+            logging.info(f"✅ New Firebase user registered: {username}")
+            return True, f"Welcome to Manjula AI, {full_name or username}!"
+
+    except Exception as e:
+        logging.error(f"Firebase registration/login failed: {e}")
+        return False, f"Authentication failed: {str(e)}"
+
+
+def request_otp(username, password, email, fullname):
+    """Send OTP to email for registration"""
+    if not username or not password or not email:
+        return (
+            "**Error:** Username, password, and email are required!",
+            gr.update(visible=False),
+            gr.update(visible=False)
+        )
+
+    if len(username) < 3:
+        return (
+            "**Error:** Username must be at least 3 characters long!",
+            gr.update(visible=False),
+            gr.update(visible=False)
+        )
+
+    if len(password) < 6:
+        return (
+            "**Error:** Password must be at least 6 characters long!",
+            gr.update(visible=False),
+            gr.update(visible=False)
+        )
+
+    # Check if user already exists
+    if MONGODB_AVAILABLE:
+        try:
+            existing_user = users_collection.find_one({"username": username.lower().strip()})
+            if existing_user:
+                return (
+                    f"**Error:** Username '{username}' is already taken!",
+                    gr.update(visible=False),
+                    gr.update(visible=False)
+                )
+
+            existing_email = users_collection.find_one({"email": email.lower().strip()})
+            if existing_email:
+                return (
+                    f"**Error:** Email '{email}' is already registered!",
+                    gr.update(visible=False),
+                    gr.update(visible=False)
+                )
+        except Exception as e:
+            logging.error(f"Database check error: {e}")
+
+    # Generate 6-digit OTP
+    otp = ''.join(random.choices(string.digits, k=6))
+
+    # Store OTP temporarily (expires in 10 minutes)
+    otp_storage[email] = {
+        "otp": otp,
+        "username": username,
+        "password": password,
+        "fullname": fullname,
+        "expires": datetime.now() + timedelta(minutes=10)
+    }
+
+    # Send OTP via email
+    try:
+        if not SMTP_EMAIL or not SMTP_PASSWORD:
+            return (
+                "**Error:** Email service not configured. Please contact administrator.",
+                gr.update(visible=False),
+                gr.update(visible=False)
+            )
+
+        msg = MIMEMultipart()
+        msg['From'] = SMTP_EMAIL
+        msg['To'] = email
+        msg['Subject'] = "Your Manjula AI Registration OTP"
+
+        body = f"""
+Hello {fullname or username}!
+
+Your OTP for registering with Manjula AI is: {otp}
+
+This OTP will expire in 10 minutes.
+
+If you didn't request this, please ignore this email.
+
+Best regards,
+Manjula AI Team
+        """
+
+        msg.attach(MIMEText(body, 'plain'))
+
+        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+        server.starttls()
+        server.login(SMTP_EMAIL, SMTP_PASSWORD)
+        text = msg.as_string()
+        server.sendmail(SMTP_EMAIL, email, text)
+        server.quit()
+
+        logging.info(f"✅ OTP sent to {email}")
+
+        return (
+            f"✅ **OTP sent successfully to {email}!**\n\nPlease check your email and enter the 6-digit code below.",
+            gr.update(visible=True),  # otp_input
+            gr.update(visible=True)  # verify_otp_btn
+        )
+
+    except Exception as e:
+        logging.error(f"Failed to send OTP email: {e}")
+        return (
+            f"**Error:** Failed to send OTP. Please check your email address or try again later.\n\nError: {str(e)}",
+            gr.update(visible=False),
+            gr.update(visible=False)
+        )
+
+
+def verify_otp_and_register(email, otp):
+    """Verify OTP and complete registration"""
+    global current_session_id, guest_chat_count
+
+    if not email or not otp:
+        return (
+            "**Error:** Please enter the OTP code!",
+            gr.update(visible=True),
+            gr.update(visible=True)
+        )
+
+    # Check if OTP exists and is valid
+    if email not in otp_storage:
+        return (
+            "**Error:** No OTP found for this email. Please request a new OTP.",
+            gr.update(visible=False),
+            gr.update(visible=False)
+        )
+
+    stored_data = otp_storage[email]
+
+    # Check if OTP expired
+    if datetime.now() > stored_data["expires"]:
+        del otp_storage[email]
+        return (
+            "**Error:** OTP has expired. Please request a new one.",
+            gr.update(visible=False),
+            gr.update(visible=False)
+        )
+
+    # Verify OTP
+    if otp.strip() != stored_data["otp"]:
+        return (
+            "**Error:** Invalid OTP! Please check and try again.",
+            gr.update(visible=True),
+            gr.update(visible=True)
+        )
+
+    # OTP verified - create user account
+    username = stored_data["username"]
+    password = stored_data["password"]
+    fullname = stored_data["fullname"]
+
+    # Remove OTP from storage
+    del otp_storage[email]
+
+    if not MONGODB_AVAILABLE:
+        # Fallback without database
+        clear_guest_history()
+        guest_chat_count = 0
+        current_session_id += 1
+
+        current_user["username"] = username
+        current_user["logged_in"] = True
+        current_user["is_guest"] = False
+        current_user["email"] = email
+        current_user["full_name"] = fullname
+
+        return (
+            f"✅ **Registration successful!**\n\nWelcome, {fullname or username}! You can now use all features.",
+            gr.update(visible=False),
+            gr.update(visible=False)
+        )
+
+    # Create user in database
+    try:
+        new_user = {
+            "username": username.lower().strip(),
+            "email": email.lower().strip(),
+            "full_name": fullname or "",
+            "password": hash_password(password),
+            "auth_provider": "email",
+            "created_at": datetime.now(),
+            "last_login": datetime.now(),
+            "usage_count": {
+                "chat": 0,
+                "file_qa": 0,
+                "image_gen": 0,
+                "video_gen": 0,
+                "image_search": 0,
+                "image_qa": 0
+            },
+            "history": [],
+            "ip_history": []
+        }
+
+        users_collection.insert_one(new_user)
+
+        logging.info(f"✅ New user registered: {username}")
+
+        return (
+            f"✅ **Registration successful!**\n\nWelcome to Manjula AI, {fullname or username}!\n\n**Please login to continue.**",
+            gr.update(visible=False),
+            gr.update(visible=False)
+        )
+
+    except DuplicateKeyError:
+        return (
+            f"**Error:** Username or email already exists! Please try a different one.",
+            gr.update(visible=False),
+            gr.update(visible=False)
+        )
+    except Exception as e:
+        logging.error(f"Registration error: {e}")
+        return (
+            f"**Error:** Registration failed. Please try again.\n\nError: {str(e)}",
+            gr.update(visible=False),
+            gr.update(visible=False)
+        )
 
 def clear_guest_history():
     """Clear all guest session history"""
@@ -604,256 +1030,66 @@ def start_as_guest():
         None
     )
 
-def generate_otp(length=6):
-    """Generate a random 6-digit OTP"""
-    return ''.join(random.choices(string.digits, k=length))
+
+# ================================
+# FIREBASE WEB CONFIG (for frontend)  ← ADD THIS
+# ================================
+# ================================
+# FIREBASE WEB CONFIG (for frontend)
+# ================================
+firebase_config = {
+    "apiKey": os.getenv("FIREBASE_API_KEY", ""),
+    "authDomain": os.getenv("FIREBASE_AUTH_DOMAIN", ""),
+    "projectId": os.getenv("FIREBASE_PROJECT_ID", ""),
+    "storageBucket": os.getenv("FIREBASE_STORAGE_BUCKET", ""),
+    "messagingSenderId": os.getenv("FIREBASE_MESSAGING_SENDER_ID", ""),
+    "appId": os.getenv("FIREBASE_APP_ID", ""),
+    "measurementId": os.getenv("FIREBASE_MEASUREMENT_ID", "")
+}
+
+firebase_config_json = json.dumps(firebase_config)
 
 
-def send_otp_email(email, otp):
-    """Send OTP to user's email address with enhanced debugging"""
-    if not SMTP_EMAIL or not SMTP_PASSWORD:
-        return False, "❌ Email service not configured. Please contact administrator."
-
-    # Debug logging (remove after testing)
-    logging.info(f"🔍 Attempting to send OTP to: {email}")
-    logging.info(f"🔍 SMTP_EMAIL: {SMTP_EMAIL}")
-    logging.info(f"🔍 SMTP_SERVER: {SMTP_SERVER}")
-    logging.info(f"🔍 SMTP_PORT: {SMTP_PORT}")
-    logging.info(f"🔍 Password length: {len(SMTP_PASSWORD)} characters")
-    logging.info(f"🔍 Password has spaces: {' ' in SMTP_PASSWORD}")
-
-    try:
-        msg = MIMEMultipart()
-        msg['From'] = f"AI Assistance <{SMTP_EMAIL}>"
-        msg['To'] = email
-        msg['Subject'] = "🔐 Your AI Assistance Verification Code"
-
-        body = f"""
-        <html>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-            <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px;">
-                <h2 style="color: #4CAF50; text-align: center;">Welcome to AI Assistance!</h2>
-                <p style="font-size: 16px;">Your verification code is:</p>
-                <div style="text-align: center; margin: 30px 0;">
-                    <h1 style="color: #4CAF50; font-size: 36px; letter-spacing: 8px; background-color: #fff; padding: 20px; border-radius: 8px; display: inline-block; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">{otp}</h1>
-                </div>
-                <p style="font-size: 14px; color: #666;">⏰ This code will expire in <strong>10 minutes</strong>.</p>
-                <p style="font-size: 14px; color: #666;">If you didn't request this code, please ignore this email.</p>
-                <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
-                <p style="color: #999; font-size: 12px; text-align: center;">
-                    <strong>⚠️ This is an automated message from AI Assistance.</strong><br>
-                    Please do not reply to this email.
-                </p>
-                <p style="text-align: center; margin-top: 20px;">
-                    <span style="color: #4CAF50; font-weight: bold;">AI Assistance Team</span>
-                </p>
-            </div>
-        </body>
-        </html>
-        """
-
-        msg.attach(MIMEText(body, 'html'))
-
-        logging.info("📧 Connecting to SMTP server...")
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30)
-
-        logging.info("🔐 Starting TLS...")
-        server.starttls()
-
-        logging.info("🔑 Attempting login...")
-        # Clean credentials - remove any whitespace or special characters
-        clean_email = SMTP_EMAIL.strip()
-        clean_password = SMTP_PASSWORD.strip().replace(' ', '').replace('\n', '').replace('\r', '')
-
-        logging.info(f"🔍 Cleaned password length: {len(clean_password)} characters")
-
-        server.login(clean_email, clean_password)
-
-        logging.info("📨 Sending message...")
-        server.send_message(msg)
-        server.quit()
-
-        logging.info(f"✅ OTP sent successfully to {email}")
-        return True, "✅ OTP sent successfully! Check your email."
-
-    except smtplib.SMTPAuthenticationError as e:
-        error_code = str(e)
-        logging.error(f"❌ SMTP Authentication failed: {error_code}")
-
-        return False, (
-            "❌ **Gmail Authentication Failed!**\n\n"
-            "**This error means your credentials are wrong.**\n\n"
-            "**Step-by-Step Fix:**\n\n"
-            "1️⃣ **Enable 2-Factor Authentication:**\n"
-            "   - Go to: https://myaccount.google.com/security\n"
-            "   - Turn ON '2-Step Verification'\n\n"
-            "2️⃣ **Generate App Password:**\n"
-            "   - Go to: https://myaccount.google.com/apppasswords\n"
-            "   - Select 'Mail' and 'Other (custom name)'\n"
-            "   - Type 'AI Assistance' as the name\n"
-            "   - Click 'Generate'\n"
-            "   - **COPY the 16-character password** (e.g., abcdefghijklmnop)\n\n"
-            "3️⃣ **Update your .env file:**\n"
-            "   ```\n"
-            f"   SMTP_EMAIL={SMTP_EMAIL}\n"
-            "   SMTP_PASSWORD=abcdefghijklmnop  ← Paste HERE (no spaces!)\n"
-            "   SMTP_SERVER=smtp.gmail.com\n"
-            "   SMTP_PORT=587\n"
-            "   ```\n\n"
-            "4️⃣ **Restart the application completely**\n\n"
-            "5️⃣ **Try again**\n\n"
-            f"📋 Technical error: {error_code}\n\n"
-            "⚠️ **Common mistakes:**\n"
-            "- Using regular Gmail password (must use App Password)\n"
-            "- App Password has spaces (remove ALL spaces)\n"
-            "- Not restarting app after changing .env\n"
-            "- Quotes around password in .env file (don't use quotes)"
-        )
-
-    except smtplib.SMTPException as e:
-        logging.error(f"❌ SMTP error: {e}")
-        return False, f"❌ Email server error: {str(e)}"
-
-    except socket.timeout:
-        logging.error("❌ Connection timeout")
-        return False, "❌ Connection timeout. Check your internet connection or firewall settings."
-
-    except Exception as e:
-        logging.error(f"❌ Unexpected error sending OTP: {e}")
-        return False, f"❌ Failed to send OTP: {str(e)}"
-
-
-def request_otp(username, password, email, full_name):
-    """Step 1: Generate and send OTP to email"""
-    if not MONGODB_AVAILABLE:
-        return "❌ Database not available. Please configure MongoDB.", gr.update(), gr.update()
-
-    # Validate inputs
-    if not username or not password or not email:
-        return "❌ Username, password, and email are required!", gr.update(), gr.update()
-
-    username = username.strip().lower()
-    email = email.strip().lower()
-
-    # Validate username length
-    if len(username) < 3:
-        return "❌ Username must be at least 3 characters long!", gr.update(), gr.update()
-
-    # Validate password length
-    if len(password) < 6:
-        return "❌ Password must be at least 6 characters long!", gr.update(), gr.update()
-
-    # Validate email format
-    import re
-    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    if not re.match(email_pattern, email):
-        return "❌ Please enter a valid email address!", gr.update(), gr.update()
-
-    # Check if username already exists
-    try:
-        existing_user = users_collection.find_one({"username": username})
-        if existing_user:
-            return "❌ Username already exists. Please choose another username.", gr.update(), gr.update()
-
-        # Check if email already exists
-        existing_email = users_collection.find_one({"email": email})
-        if existing_email:
-            return "❌ Email already registered. Please use another email or login.", gr.update(), gr.update()
-    except Exception as e:
-        logging.error(f"Database check error: {e}")
-        return f"❌ Database error: {str(e)}", gr.update(), gr.update()
-
-    # Generate OTP
-    otp = generate_otp()
-
-    # Store OTP and user data temporarily
-    otp_storage[email] = {
-        "otp": otp,
-        "timestamp": datetime.now(),
-        "user_data": {
-            "username": username,
-            "password": hash_password(password),
-            "email": email,
-            "full_name": full_name.strip() if full_name else ""
+register_html = """
+<div style="padding: 20px; text-align: center;">
+    <style>
+        .google-signin-btn {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            margin: 10px auto;
+            text-decoration: none;
         }
-    }
+        .google-signin-btn:hover {
+            background-color: #357ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.4);
+        }
+    </style>
 
-    # Send OTP email
-    success, message = send_otp_email(email, otp)
+    <a href="http://127.0.0.1:5000/firebase-auth" target="_blank" class="google-signin-btn">
+        <svg width="18" height="18" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        Continue with Google
+    </a>
 
-    if success:
-        return (
-            f"✅ **OTP sent to {email}!**\n\n"
-            f"📧 Check your inbox (and spam folder) for a 6-digit code.\n\n"
-            f"⏰ The OTP will expire in 10 minutes.\n\n"
-            f"👇 Enter the OTP below to complete registration:",
-            gr.update(visible=True),  # Show OTP input
-            gr.update(visible=True)  # Show verify button
-        )
-    else:
-        # Clean up if email fails
-        if email in otp_storage:
-            del otp_storage[email]
-        return message, gr.update(), gr.update()
-
-def verify_otp_and_register(email, otp_input):
-    """Step 2: Verify OTP and complete registration"""
-    if not MONGODB_AVAILABLE:
-        return "❌ Database not available. Please configure MongoDB.", gr.update(), gr.update()
-
-    email = email.strip().lower()
-    otp_input = otp_input.strip()
-
-    if email not in otp_storage:
-        return "❌ No OTP request found for this email. Please request OTP first.", gr.update(), gr.update()
-
-    otp_data = otp_storage[email]
-
-    if datetime.now() - otp_data["timestamp"] > timedelta(minutes=10):
-        del otp_storage[email]
-        return "❌ OTP expired. Please request a new OTP.", gr.update(), gr.update()
-
-    if otp_input != otp_data["otp"]:
-        return "❌ Invalid OTP. Please check your email and try again.", gr.update(), gr.update()
-
-    try:
-        user_data = otp_data["user_data"]
-        user_data.update({
-            "created_at": datetime.now(),
-            "last_login": None,
-            "usage_count": {
-                "chat": 0,
-                "file_qa": 0,
-                "image_gen": 0,
-                "video_gen": 0,
-                "image_search": 0,
-                "image_qa": 0
-            },
-            "ip_history": [],
-            "history": []
-        })
-
-        users_collection.insert_one(user_data)
-        del otp_storage[email]
-
-        logging.info(f"✅ User registered with verified email: {user_data['username']}")
-
-        return (
-            f"✅ **Registration successful!** Welcome, {user_data['username']}!\n\n"
-            f"🎉 Your email has been verified!\n\n"
-            f"You now have access to ALL features!\n\n"
-            f"Please login now.",
-            gr.update(visible=False),
-            gr.update(visible=False)
-        )
-
-    except DuplicateKeyError:
-        return "❌ Username already exists. Please choose another username.", gr.update(), gr.update()
-    except Exception as e:
-        logging.error(f"Registration error: {e}")
-        return f"❌ Registration failed: {str(e)}", gr.update(), gr.update()
-
-
+    <p style="margin-top: 10px; font-size: 12px; color: #666;">
+        Opens Firebase authentication in a new window
+    </p>
+</div>
+"""
 def login_user(username, password):
     """Login user - FIXED with complete session isolation & 16 outputs"""
     global current_session_id, guest_chat_count
@@ -862,8 +1098,7 @@ def login_user(username, password):
     if not MONGODB_AVAILABLE:
         current_session_id += 1
         clear_guest_history()
-        guest_chat_count = 0
-
+        guest_chat_count = 0,
         current_user["username"] = username
         current_user["logged_in"] = True
         current_user["is_guest"] = False
@@ -1228,14 +1463,21 @@ def get_user_stats():
         return f"❌ Failed to load statistics: {str(e)}"
 
 
+
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_CLIENT = None
+
 if GEMINI_API_KEY:
     try:
-        GEMINI_CLIENT = genai.Client(api_key=GEMINI_API_KEY)
+        genai.configure(api_key=GEMINI_API_KEY)
+        GEMINI_CLIENT = genai
+        logging.info("🟢 Gemini Client successfully initialized.")
     except Exception as e:
-        logging.error(f"Failed to initialize Gemini Client: {e}")
+        logging.error(f"❌ Failed to initialize Gemini Client: {e}")
         GEMINI_CLIENT = None
-
+else:
+    logging.error("❌ GEMINI_API_KEY is not set in environment variables.")
 
 def check_rate_limit(task_key):
     reset_time = api_reset_times.get(task_key)
@@ -1497,14 +1739,16 @@ def query_model(prompt, history, session_id_state):
             for msg in llm_messages:
                 role = "model" if msg["role"] == "assistant" else msg["role"]
                 gemini_formatted_messages.append(
-                    types.Content(role=role, parts=[types.Part(text=msg["content"])])
+                    {
+                        "role": role,
+                        "parts": [{"text": msg["content"]}],
+                    }
                 )
 
-            response = GEMINI_CLIENT.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=gemini_formatted_messages
-            )
+            model = GEMINI_CLIENT.GenerativeModel('gemini-2.0-flash-exp')
+            response = model.generate_content(gemini_formatted_messages)
             answer = response.text
+
         except Exception as e:
             err_str = str(e).lower()
             if any(x in err_str for x in ["quota", "unavailable", "429"]):
@@ -1705,7 +1949,7 @@ def extract_file_content_gemini(file, prompt):
             yield "⏱️ 2s", "Error: Unsupported file type (DOCX/TXT require dedicated parsers)."
             return
 
-        uploaded_file = GEMINI_CLIENT.files.upload(file=file_path)
+        uploaded_file = genai.upload_file(path=file_path)
         elapsed = int(time.time() - start_time)
 
         yield f"⏱️ {elapsed}s", "⏳ **Step 2/3:** Processing file..."
@@ -1721,10 +1965,9 @@ def extract_file_content_gemini(file, prompt):
 
         contents = [uploaded_file, extraction_prompt]
 
-        response = GEMINI_CLIENT.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=contents
-        )
+        model = GEMINI_CLIENT.GenerativeModel('gemini-2.0-flash-exp')
+        response = model.generate_content(contents)
+
 
         elapsed = int(time.time() - start_time)
 
@@ -1745,7 +1988,7 @@ def extract_file_content_gemini(file, prompt):
         if uploaded_file and hasattr(uploaded_file, 'name') and uploaded_file.name:
             try:
                 time.sleep(1)
-                GEMINI_CLIENT.files.delete(name=uploaded_file.name)
+                genai.delete_file(name=uploaded_file.name)
                 logging.info(f"✅ Cleaned up file: {uploaded_file.name}")
             except Exception as cleanup_error:
                 logging.warning(f"File cleanup warning: {cleanup_error}")
@@ -1782,10 +2025,9 @@ Now, based on the user's request above, provide the most helpful and appropriate
     if GEMINI_CLIENT:
         llm_name = "Gemini"
         try:
-            response = GEMINI_CLIENT.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=system_prompt
-            )
+            model = GEMINI_CLIENT.GenerativeModel('gemini-2.0-flash-exp')
+            response = model.generate_content(system_prompt)
+
             if response and response.text:
                 answer = response.text
         except Exception as e:
@@ -2124,16 +2366,13 @@ def query_image_model(image, prompt):
         resized_image.save(img_byte_arr, format='JPEG')
         img_byte_arr.seek(0)
 
-        image_part = types.Part.from_bytes(
-            data=img_byte_arr.getvalue(),
-            mime_type='image/jpeg'
-        )
-
-        contents = [image_part, prompt]
-        response = GEMINI_CLIENT.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=contents
-        )
+        image_part = {
+            "mime_type": "image/jpeg",
+            "data": img_byte_arr.getvalue(),
+        }
+        contents = [resized_image, prompt]  # Gemini accepts PIL Image objects directly
+        model = GEMINI_CLIENT.GenerativeModel('gemini-2.0-flash-exp')
+        response = model.generate_content(contents)
 
         result = response.text
 
@@ -2812,10 +3051,317 @@ def handle_pasted_image(pasted_image):
         return None, f"❌ Failed to process pasted image: {e}"
 
 
-# ------------------ GRADIO UI ------------------
-with gr.Blocks(title="Manjula AI Assistance", theme=gr.themes.Soft()) as demo:
-    gr.Markdown("# 🤖 Manjula AI Assistance")
 
+# ================================
+# FLASK ROUTE FOR FIREBASE AUTH PAGE
+# ================================
+@flask_app.route("/firebase-auth", methods=["GET"])
+def firebase_auth_page():
+    """Serve Firebase auth page"""
+
+    print("🔥 Serving Firebase auth page")
+
+    html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Firebase Login</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }}
+        #google-btn {{
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }}
+        #google-btn:hover {{
+            background: #357ae8;
+        }}
+        #status {{
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }}
+        .success {{ background: #d4edda; border-color: #c3e6cb; }}
+        .error {{ background: #f8d7da; border-color: #f5c6cb; }}
+        .loading {{ background: #fff3cd; border-color: #ffeeba; }}
+    </style>
+</head>
+<body>
+    <h2>🔐 Sign in with Google</h2>
+    <button id="google-btn">Continue with Google</button>
+    <div id="status" class="loading">Loading Firebase...</div>
+    <div id="logs" style="margin-top: 20px; font-family: monospace; font-size: 12px; white-space: pre-wrap;"></div>
+
+    <script type="module">
+        const logDiv = document.getElementById('logs');
+        const statusDiv = document.getElementById('status');
+
+        function log(msg) {{
+            console.log(msg);
+            logDiv.textContent += msg + '\\n';
+        }}
+
+        log('🔥 Page loaded');
+
+        const config = {firebase_config_json};
+
+        log('📦 Config loaded: ' + JSON.stringify(config, null, 2));
+
+        if (!config.apiKey) {{
+            statusDiv.textContent = '❌ Firebase not configured';
+            statusDiv.className = 'error';
+        }} else {{
+            log('📥 Importing Firebase modules...');
+
+            Promise.all([
+                import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'),
+                import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js')
+            ]).then(([appModule, authModule]) => {{
+                log('✅ Firebase modules loaded');
+
+                const app = appModule.initializeApp(config);
+                const auth = authModule.getAuth(app);
+                const provider = new authModule.GoogleAuthProvider();
+
+                provider.setCustomParameters({{ prompt: 'select_account' }});
+
+                statusDiv.textContent = '✅ Ready! Click button to sign in.';
+                statusDiv.className = 'success';
+                log('✅ Firebase initialized');
+
+                document.getElementById('google-btn').addEventListener('click', async () => {{
+                    log('🔘 Button clicked');
+                    statusDiv.textContent = '⏳ Opening Google sign-in popup...';
+                    statusDiv.className = 'loading';
+
+                    try {{
+                        log('🪟 Calling signInWithPopup()...');
+                        const result = await authModule.signInWithPopup(auth, provider);
+
+                        log('✅ Sign-in successful!');
+                        log('   User: ' + result.user.email);
+                        log('   UID: ' + result.user.uid);
+
+                        statusDiv.textContent = '⏳ Getting authentication token...';
+
+                        log('🔐 Getting ID token (forcing refresh)...');
+                        const token = await result.user.getIdToken(true);
+
+                        log('✅ Got token:');
+                        log('   Length: ' + token.length);
+                        log('   Preview: ' + token.substring(0, 100) + '...');
+
+                        statusDiv.textContent = '⏳ Sending token to backend...';
+
+                        const backendUrl = 'http://127.0.0.1:5000/api/firebase-login';
+                        log('📤 POST to: ' + backendUrl);
+
+                        const response = await fetch(backendUrl, {{
+                            method: 'POST',
+                            headers: {{
+                                'Content-Type': 'application/json'
+                            }},
+                            body: JSON.stringify({{ token: token }})
+                        }});
+
+                        log('📥 Response received:');
+                        log('   Status: ' + response.status);
+                        log('   Status Text: ' + response.statusText);
+
+                        const responseText = await response.text();
+                        log('   Raw response: ' + responseText);
+
+                        const data = JSON.parse(responseText);
+                        log('   Parsed data: ' + JSON.stringify(data, null, 2));
+
+                        if (data.success) {{
+                            statusDiv.textContent = '✅ SUCCESS! Logged in as ' + result.user.email;
+                            statusDiv.className = 'success';
+                            log('🎉 Login successful!');
+
+                            alert('🎉 Login successful!\\n\\nYou can now:\\n1. Close this window\\n2. Go back to main app\\n3. Refresh the page (F5)');
+
+                            setTimeout(() => window.close(), 2000);
+                        }} else {{
+                            throw new Error(data.error || 'Backend returned success=false');
+                        }}
+
+                    }} catch (error) {{
+                        log('❌ ERROR: ' + error.message);
+                        log('   Type: ' + error.name);
+                        log('   Code: ' + error.code);
+                        log('   Stack: ' + error.stack);
+
+                        statusDiv.textContent = '❌ Error: ' + error.message;
+                        statusDiv.className = 'error';
+                    }}
+                }});
+
+            }}).catch(error => {{
+                log('❌ Failed to load Firebase: ' + error.message);
+                statusDiv.textContent = '❌ Failed to load Firebase';
+                statusDiv.className = 'error';
+            }});
+        }}
+    </script>
+</body>
+</html>
+"""
+    return html
+
+@flask_app.route("/api/firebase-login", methods=["POST", "OPTIONS"])
+def firebase_login_endpoint():
+    """Handle Firebase authentication from frontend - CORS ENABLED"""
+
+    # Handle CORS preflight
+    if request.method == "OPTIONS":
+        response = jsonify({"status": "ok"})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+        response.headers.add("Access-Control-Allow-Methods", "POST,OPTIONS")
+        return response, 200
+
+    print("\n" + "=" * 80)
+    print("🔥 FIREBASE LOGIN ENDPOINT CALLED")
+    print("=" * 80)
+
+    try:
+        # Log everything
+        print(f"Method: {request.method}")
+        print(f"Headers: {dict(request.headers)}")
+        print(f"Content-Type: {request.content_type}")
+        print(f"Data: {request.data}")
+
+        data = request.get_json(force=True)
+        print(f"Parsed JSON: {data}")
+
+        id_token = data.get("token") if data else None
+
+        if not id_token:
+            print("❌ NO TOKEN PROVIDED")
+            response = jsonify({"success": False, "error": "No token provided"})
+            response.headers.add("Access-Control-Allow-Origin", "*")
+            return response, 400
+
+        print(f"Token length: {len(id_token)}")
+        print(f"Token preview: {id_token[:50]}...")
+
+        # Verify token
+        print("🔐 Verifying token...")
+        user_info = verify_firebase_token(id_token)
+
+        if not user_info:
+            print("❌ TOKEN VERIFICATION FAILED")
+            response = jsonify({"success": False, "error": "Invalid or expired token"})
+            response.headers.add("Access-Control-Allow-Origin", "*")
+            return response, 401
+
+        print(f"✅ Token verified! User: {user_info.get('email')}")
+
+        # Register/login user
+        success, message = register_or_login_firebase_user(user_info)
+
+        if success:
+            print(f"✅ User logged in: {current_user['username']}")
+            response = jsonify({
+                "success": True,
+                "message": message,
+                "user": {
+                    "username": current_user["username"],
+                    "email": current_user["email"],
+                    "full_name": current_user.get("full_name", "")
+                }
+            })
+            response.headers.add("Access-Control-Allow-Origin", "*")
+            return response, 200
+        else:
+            print(f"❌ Login failed: {message}")
+            response = jsonify({"success": False, "error": message})
+            response.headers.add("Access-Control-Allow-Origin", "*")
+            return response, 500
+
+    except Exception as e:
+        print(f"❌ EXCEPTION: {e}")
+        print(traceback.format_exc())
+        response = jsonify({"success": False, "error": str(e)})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response, 500
+    finally:
+        print("=" * 80 + "\n")
+
+@flask_app.route("/api/check-auth", methods=["GET"])
+def check_auth_status():
+    """Check if user is authenticated"""
+    return jsonify({
+        "logged_in": current_user.get("logged_in", False),
+        "username": current_user.get("username"),
+        "is_guest": current_user.get("is_guest", True)
+    })
+@flask_app.route("/test-firebase", methods=["GET"])
+def test_firebase():
+    """Test Firebase configuration"""
+    try:
+        app = firebase_admin.get_app()
+        return jsonify({
+            "status": "✅ Firebase initialized",
+            "app_name": app.name,
+            "project_id": app.project_id if hasattr(app, 'project_id') else "N/A"
+        }), 200
+    except ValueError:
+        return jsonify({
+            "status": "❌ Firebase NOT initialized",
+            "error": "No Firebase app found"
+        }), 500
+    except Exception as e:
+        return jsonify({
+            "status": "❌ Error",
+            "error": str(e)
+        }), 500
+
+def check_auth_status():
+    """Check if user is authenticated"""
+    return jsonify({
+        "logged_in": current_user.get("logged_in", False),
+        "username": current_user.get("username"),
+        "is_guest": current_user.get("is_guest", True)
+    })
+
+
+# Start Flask server in background thread
+def run_flask():
+    """Run Flask server in a separate thread"""
+    flask_app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
+
+
+if FIREBASE_AVAILABLE:
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
+    flask_thread.start()
+    logging.info("✅ Flask server started on port 5000 for Firebase auth")
+
+# ------------------ GRADIO UI ------------------
+with gr.Blocks(
+    title="All Mind",
+    theme=gr.themes.Soft(),
+    css="""
+        /* Prevent manifest errors */
+        body::before {
+            content: '';
+            display: none;
+        }
+    """
+) as demo:
+    gr.Markdown("# 🤖 All Mind")
     # Login/Register Section
     with gr.Group(visible=False) as auth_section:
         gr.Markdown("## 🔐 Welcome! Please Login or Register")
@@ -2829,7 +3375,18 @@ with gr.Blocks(title="Manjula AI Assistance", theme=gr.themes.Soft()) as demo:
             login_status = gr.Markdown()
 
         with gr.Tab("Register"):
-            gr.Markdown("### 🎉 Create Your Free Account & Unlock All Features!")
+            gr.Markdown("### 🎉 Create Your Free Account!")
+
+            # Firebase Google Sign-In (if available)
+            if FIREBASE_AVAILABLE:
+                gr.Markdown("#### 🚀 Quick Sign Up with Google (Recommended)")
+                gr.HTML(register_html)
+                gr.Markdown("---\n**OR**\n---")
+                gr.Markdown("### Traditional Email Registration")
+            else:
+                gr.Markdown("⚠️ **Google Sign-In temporarily unavailable** - Use email registration below")
+                gr.Markdown("### Register with Email")
+
             gr.Markdown("""
         **What you get with registration:**
         - ♾️ **Unlimited Chat** - No message limits
@@ -2857,10 +3414,6 @@ with gr.Blocks(title="Manjula AI Assistance", theme=gr.themes.Soft()) as demo:
                                        visible=False)
 
             register_status = gr.Markdown()
-
-        if not MONGODB_AVAILABLE:
-            gr.Markdown(
-                "### ⚠️ Database Not Configured\n\nMongoDB is not connected. Please set `MONGODB_URI` in your `.env` file.\n\nExample: `MONGODB_URI=mongodb://localhost:27017/`")
 
     # Main App Section
     with gr.Group(visible=True) as main_app:
@@ -3283,5 +3836,5 @@ with gr.Blocks(title="Manjula AI Assistance", theme=gr.themes.Soft()) as demo:
     )
 
 if __name__ == "__main__":
-    logging.info("🚀 Starting Manjula AI with Isolated User History...")
     demo.launch()
+
