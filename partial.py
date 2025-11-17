@@ -1049,7 +1049,6 @@ firebase_config = {
 
 firebase_config_json = json.dumps(firebase_config)
 
-
 register_html = """
 <div style="padding: 20px; text-align: center;">
     <style>
@@ -1075,7 +1074,7 @@ register_html = """
         }
     </style>
 
-    <a href="http://127.0.0.1:5000/firebase-auth" target="_blank" class="google-signin-btn">
+    <a href="http://127.0.0.1:5000/firebase-auth?action=register" target="_blank" class="google-signin-btn">
         <svg width="18" height="18" viewBox="0 0 48 48">
             <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
             <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -1090,6 +1089,185 @@ register_html = """
     </p>
 </div>
 """
+
+login_html = """
+<div style="padding: 20px; text-align: center;">
+    <style>
+        .google-signin-btn {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            margin: 10px auto;
+            text-decoration: none;
+        }
+        .google-signin-btn:hover {
+            background-color: #357ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.4);
+        }
+    </style>
+
+    <a href="http://127.0.0.1:5000/firebase-auth?action=login" target="_blank" class="google-signin-btn">
+        <svg width="18" height="18" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        Continue with Google
+    </a>
+
+    <p style="margin-top: 10px; font-size: 12px; color: #666;">
+        Opens Firebase authentication in a new window
+    </p>
+</div>
+"""
+# ================================
+# FIREBASE LOGIN HANDLER - Returns 16 outputs like login_user()
+# ================================
+
+def login_firebase_user(user_info):
+    """
+    Login user from Firebase authentication - checks if user is registered
+    Returns same 16 outputs as login_user() for Gradio UI update
+    """
+    global current_session_id, guest_chat_count
+
+    # === 1. MONGODB NOT AVAILABLE (Fallback) ===
+    if not MONGODB_AVAILABLE:
+        current_session_id += 1
+        clear_guest_history()
+        guest_chat_count = 0
+
+        username = user_info["email"].split("@")[0]
+        current_user["username"] = username
+        current_user["logged_in"] = True
+        current_user["is_guest"] = False
+        current_user["email"] = user_info["email"]
+        current_user["full_name"] = user_info.get("name", "")
+
+        return (
+            f"**Welcome back, {username}!**\n\nYou have full access to all features!",
+            gr.update(visible=False),  # auth_section
+            gr.update(visible=True),  # main_app
+            f"**Logged in as:** {username}",
+            gr.update(visible=True),  # file_qa_tab
+            gr.update(visible=True),  # image_gen_tab
+            gr.update(visible=True),  # image_qa_tab
+            gr.update(visible=True),  # image_search_tab
+            gr.update(visible=True),  # video_gen_tab
+            gr.update(visible=True),  # translation_tab
+            gr.update(visible=True),  # stats_btn
+            [],  # history_chatbot
+            gr.update(visible=False),  # guest_chat_warning
+            [],  # chatbot
+            current_session_id,  # session_id
+            None  # mic_chat
+        )
+
+    # === 2. CHECK IF USER EXISTS ===
+    try:
+        email = user_info["email"]
+        existing_user = users_collection.find_one({"email": email})
+
+        if not existing_user:
+            # User not registered - return error state
+            logging.warning(f"⚠️ Login attempt with unregistered email: {email}")
+            error_msg = (
+                f"❌ **Account Not Found**\n\n"
+                f"The email **{email}** is not registered.\n\n"
+                f"**Please register first:**\n"
+                f"1. Click the **'Register'** tab above\n"
+                f"2. Use **'Continue with Google'** button\n"
+                f"3. Sign in with the same Google account\n\n"
+                f"Registration takes less than 30 seconds! 🚀"
+            )
+
+            return (
+                error_msg,  # login_status
+                gr.update(visible=True),  # auth_section
+                gr.update(visible=False),  # main_app
+                "**Not logged in**",  # user_info
+                gr.update(visible=False),  # file_qa_tab
+                gr.update(visible=False),  # image_gen_tab
+                gr.update(visible=False),  # image_qa_tab
+                gr.update(visible=False),  # image_search_tab
+                gr.update(visible=False),  # video_gen_tab
+                gr.update(visible=False),  # translation_tab
+                gr.update(visible=False),  # stats_btn
+                [],  # history_chatbot
+                gr.update(visible=False),  # guest_chat_warning
+                [],  # chatbot
+                current_session_id,  # session_id
+                None  # mic_chat
+            )
+
+        # === 3. VALID LOGIN - USER EXISTS ===
+        clear_guest_history()
+        guest_chat_count = 0
+        current_session_id += 1
+
+        users_collection.update_one(
+            {"email": email},
+            {"$set": {"last_login": datetime.now()}}
+        )
+
+        current_user["username"] = existing_user["username"]
+        current_user["logged_in"] = True
+        current_user["is_guest"] = False
+        current_user["email"] = email
+        current_user["full_name"] = existing_user.get("full_name", user_info.get("name", ""))
+
+        logging.info(f"✅ Firebase user logged in: {existing_user['username']} | Session ID: {current_session_id}")
+
+        return (
+            f"**✅ Welcome back, {current_user['full_name'] or current_user['username']}!**\n\nYou have full access to all features!",
+            gr.update(visible=False),  # auth_section
+            gr.update(visible=True),  # main_app
+            f"**Logged in as:** {current_user['username']}",
+            gr.update(visible=True),  # file_qa_tab
+            gr.update(visible=True),  # image_gen_tab
+            gr.update(visible=True),  # image_qa_tab
+            gr.update(visible=True),  # image_search_tab
+            gr.update(visible=True),  # video_gen_tab
+            gr.update(visible=True),  # translation_tab
+            gr.update(visible=True),  # stats_btn
+            [],  # history_chatbot
+            gr.update(visible=False),  # guest_chat_warning
+            [],  # chatbot
+            current_session_id,  # session_id
+            None  # mic_chat
+        )
+
+    except Exception as e:
+        logging.error(f"Firebase login failed: {e}")
+        return (
+            f"**Login failed:** {str(e)}",
+            gr.update(visible=True),  # auth_section
+            gr.update(visible=False),  # main_app
+            "**Not logged in**",
+            gr.update(visible=False),  # file_qa_tab
+            gr.update(visible=False),  # image_gen_tab
+            gr.update(visible=False),  # image_qa_tab
+            gr.update(visible=False),  # image_search_tab
+            gr.update(visible=False),  # video_gen_tab
+            gr.update(visible=False),  # translation_tab
+            gr.update(visible=False),  # stats_btn
+            [],  # history_chatbot
+            gr.update(visible=True),  # guest_chat_warning
+            [],  # chatbot
+            current_session_id,  # session_id
+            None  # mic_chat
+        )
+
 def login_user(username, password):
     """Login user - FIXED with complete session isolation & 16 outputs"""
     global current_session_id, guest_chat_count
@@ -3051,22 +3229,46 @@ def handle_pasted_image(pasted_image):
         return None, f"❌ Failed to process pasted image: {e}"
 
 
+# ================================
+# GLOBAL STATE FOR FIREBASE LOGIN
+# ================================
+firebase_login_result = None  # Stores the 16-tuple result from login_firebase_user()
+
+
+# ================================
+# GRADIO CHECKER FOR FIREBASE LOGIN
+# ================================
+def check_firebase_login_and_update():
+    """Check if Firebase login completed and return UI updates"""
+    global firebase_login_result
+
+    if firebase_login_result is not None:
+        result = firebase_login_result
+        firebase_login_result = None
+        logging.info("🔥 Firebase login detected! Updating Gradio UI...")
+        return result
+
+    return tuple([gr.update() for _ in range(16)])
 
 # ================================
 # FLASK ROUTE FOR FIREBASE AUTH PAGE
 # ================================
 @flask_app.route("/firebase-auth", methods=["GET"])
+@flask_app.route("/firebase-auth", methods=["GET"])
 def firebase_auth_page():
-    """Serve Firebase auth page"""
+    """Serve Firebase auth page with action parameter"""
 
-    print("🔥 Serving Firebase auth page")
+    # ✅ FIX: Get action from URL query parameter
+    action = request.args.get('action', 'login')
+
+    print(f"🔥 Serving Firebase auth page - Action: {action}")
 
     html = f"""
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Firebase Login</title>
+    <title>Firebase {action.title()}</title>
     <style>
         body {{
             font-family: Arial, sans-serif;
@@ -3098,7 +3300,7 @@ def firebase_auth_page():
     </style>
 </head>
 <body>
-    <h2>🔐 Sign in with Google</h2>
+    <h2>🔐 Sign {action} with Google</h2>
     <button id="google-btn">Continue with Google</button>
     <div id="status" class="loading">Loading Firebase...</div>
     <div id="logs" style="margin-top: 20px; font-family: monospace; font-size: 12px; white-space: pre-wrap;"></div>
@@ -3107,12 +3309,16 @@ def firebase_auth_page():
         const logDiv = document.getElementById('logs');
         const statusDiv = document.getElementById('status');
 
+        // ✅ FIX: Define action variable from server-side
+        const action = "{action}";
+
         function log(msg) {{
             console.log(msg);
             logDiv.textContent += msg + '\\n';
         }}
 
         log('🔥 Page loaded');
+        log('📋 Action: ' + action);
 
         const config = {firebase_config_json};
 
@@ -3136,7 +3342,7 @@ def firebase_auth_page():
 
                 provider.setCustomParameters({{ prompt: 'select_account' }});
 
-                statusDiv.textContent = '✅ Ready! Click button to sign in.';
+                statusDiv.textContent = '✅ Ready! Click button to sign ' + action + '.';
                 statusDiv.className = 'success';
                 log('✅ Firebase initialized');
 
@@ -3166,13 +3372,18 @@ def firebase_auth_page():
 
                         const backendUrl = 'http://127.0.0.1:5000/api/firebase-login';
                         log('📤 POST to: ' + backendUrl);
+                        log('📤 Action: ' + action);
 
+                        // ✅ FIX: Now action variable is properly defined
                         const response = await fetch(backendUrl, {{
                             method: 'POST',
                             headers: {{
                                 'Content-Type': 'application/json'
                             }},
-                            body: JSON.stringify({{ token: token }})
+                            body: JSON.stringify({{ 
+                                token: token,
+                                action: action
+                            }})
                         }});
 
                         log('📥 Response received:');
@@ -3186,11 +3397,12 @@ def firebase_auth_page():
                         log('   Parsed data: ' + JSON.stringify(data, null, 2));
 
                         if (data.success) {{
-                            statusDiv.textContent = '✅ SUCCESS! Logged in as ' + result.user.email;
+                            const actionText = action === 'register' ? 'Registered' : 'Logged in';
+                            statusDiv.textContent = '✅ SUCCESS! ' + actionText + ' as ' + result.user.email;
                             statusDiv.className = 'success';
-                            log('🎉 Login successful!');
+                            log('🎉 ' + actionText + ' successfully!');
 
-                            alert('🎉 Login successful!\\n\\nYou can now:\\n1. Close this window\\n2. Go back to main app\\n3. Refresh the page (F5)');
+                            alert('🎉 ' + actionText + ' successfully!\\n\\nYou can now:\\n1. Close this window\\n2. Go back to main app\\n3. Refresh the page (F5)');
 
                             setTimeout(() => window.close(), 2000);
                         }} else {{
@@ -3222,9 +3434,9 @@ def firebase_auth_page():
 
 @flask_app.route("/api/firebase-login", methods=["POST", "OPTIONS"])
 def firebase_login_endpoint():
-    """Handle Firebase authentication from frontend - CORS ENABLED"""
+    """Handle Firebase authentication - SUPPORTS BOTH LOGIN & REGISTER"""
+    global firebase_login_result
 
-    # Handle CORS preflight
     if request.method == "OPTIONS":
         response = jsonify({"status": "ok"})
         response.headers.add("Access-Control-Allow-Origin", "*")
@@ -3233,72 +3445,75 @@ def firebase_login_endpoint():
         return response, 200
 
     print("\n" + "=" * 80)
-    print("🔥 FIREBASE LOGIN ENDPOINT CALLED")
+    print("🔥 FIREBASE AUTHENTICATION ENDPOINT CALLED")
     print("=" * 80)
 
     try:
-        # Log everything
-        print(f"Method: {request.method}")
-        print(f"Headers: {dict(request.headers)}")
-        print(f"Content-Type: {request.content_type}")
-        print(f"Data: {request.data}")
-
         data = request.get_json(force=True)
-        print(f"Parsed JSON: {data}")
-
         id_token = data.get("token") if data else None
+        action = data.get("action", "login")
 
         if not id_token:
-            print("❌ NO TOKEN PROVIDED")
             response = jsonify({"success": False, "error": "No token provided"})
             response.headers.add("Access-Control-Allow-Origin", "*")
             return response, 400
 
-        print(f"Token length: {len(id_token)}")
-        print(f"Token preview: {id_token[:50]}...")
-
-        # Verify token
-        print("🔐 Verifying token...")
         user_info = verify_firebase_token(id_token)
 
         if not user_info:
-            print("❌ TOKEN VERIFICATION FAILED")
             response = jsonify({"success": False, "error": "Invalid or expired token"})
             response.headers.add("Access-Control-Allow-Origin", "*")
             return response, 401
 
-        print(f"✅ Token verified! User: {user_info.get('email')}")
+        if action == "register":
+            success, message = register_or_login_firebase_user(user_info)
 
-        # Register/login user
-        success, message = register_or_login_firebase_user(user_info)
-
-        if success:
-            print(f"✅ User logged in: {current_user['username']}")
-            response = jsonify({
-                "success": True,
-                "message": message,
-                "user": {
-                    "username": current_user["username"],
-                    "email": current_user["email"],
-                    "full_name": current_user.get("full_name", "")
-                }
-            })
-            response.headers.add("Access-Control-Allow-Origin", "*")
-            return response, 200
+            if success:
+                response = jsonify({
+                    "success": True,
+                    "message": message,
+                    "user": {
+                        "username": current_user["username"],
+                        "email": current_user["email"],
+                        "full_name": current_user.get("full_name", "")
+                    }
+                })
+                response.headers.add("Access-Control-Allow-Origin", "*")
+                return response, 200
+            else:
+                response = jsonify({"success": False, "error": message})
+                response.headers.add("Access-Control-Allow-Origin", "*")
+                return response, 500
         else:
-            print(f"❌ Login failed: {message}")
-            response = jsonify({"success": False, "error": message})
-            response.headers.add("Access-Control-Allow-Origin", "*")
-            return response, 500
+            # LOGIN - Store result for Gradio to pick up
+            result_tuple = login_firebase_user(user_info)
+            firebase_login_result = result_tuple
+
+            success_msg = result_tuple[0]
+            is_success = "Welcome back" in success_msg or "✅" in success_msg
+
+            if is_success:
+                response = jsonify({
+                    "success": True,
+                    "message": success_msg,
+                    "user": {
+                        "username": current_user["username"],
+                        "email": current_user["email"],
+                        "full_name": current_user.get("full_name", "")
+                    }
+                })
+                response.headers.add("Access-Control-Allow-Origin", "*")
+                return response, 200
+            else:
+                response = jsonify({"success": False, "error": success_msg})
+                response.headers.add("Access-Control-Allow-Origin", "*")
+                return response, 400
 
     except Exception as e:
         print(f"❌ EXCEPTION: {e}")
-        print(traceback.format_exc())
         response = jsonify({"success": False, "error": str(e)})
         response.headers.add("Access-Control-Allow-Origin", "*")
         return response, 500
-    finally:
-        print("=" * 80 + "\n")
 
 @flask_app.route("/api/check-auth", methods=["GET"])
 def check_auth_status():
@@ -3352,15 +3567,9 @@ if FIREBASE_AVAILABLE:
 # ------------------ GRADIO UI ------------------
 with gr.Blocks(
     title="All Mind",
-    theme=gr.themes.Soft(),
-    css="""
-        /* Prevent manifest errors */
-        body::before {
-            content: '';
-            display: none;
-        }
-    """
+    theme=gr.themes.Soft()
 ) as demo:
+
     gr.Markdown("# 🤖 All Mind")
     # Login/Register Section
     with gr.Group(visible=False) as auth_section:
@@ -3368,6 +3577,15 @@ with gr.Blocks(
         guest_status = gr.Markdown("", visible=False)
 
         with gr.Tab("Login"):
+            gr.Markdown("## 🔑 Sign In to Your Account")
+
+            # ADD THIS BLOCK - Google Sign-In for Login
+            if FIREBASE_AVAILABLE:
+                gr.Markdown("### 🚀 Quick Sign In with Google")
+                gr.HTML(login_html)  # ← YOU'RE MISSING THIS!
+                gr.Markdown("---\n**OR**\n---")
+                gr.Markdown("### Traditional Login")
+
             with gr.Row():
                 login_username = gr.Textbox(label="Username", placeholder="Enter your username")
                 login_password = gr.Textbox(label="Password", type="password", placeholder="Enter your password")
@@ -3807,6 +4025,20 @@ with gr.Blocks(
                  image_search_tab, video_gen_tab, translation_tab, stats_btn, history_chatbot, guest_chat_warning,
                  chatbot, session_id, mic_chat]
     )
+    # Firebase login checker - polls every 2 seconds to detect Google login
+    firebase_check_timer = gr.Timer(value=2, active=True)
+
+    firebase_check_timer.tick(
+        check_firebase_login_and_update,
+        inputs=None,
+        outputs=[
+            login_status, auth_section, main_app, user_info,
+            file_qa_tab, image_gen_tab, image_qa_tab,
+            image_search_tab, video_gen_tab, translation_tab,
+            stats_btn, history_chatbot, guest_chat_warning,
+            chatbot, session_id, mic_chat
+        ]
+    )
 
 
     def show_stats():
@@ -3837,4 +4069,3 @@ with gr.Blocks(
 
 if __name__ == "__main__":
     demo.launch()
-
