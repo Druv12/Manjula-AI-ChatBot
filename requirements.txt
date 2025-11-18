@@ -1,25 +1,48 @@
-# ---- Web & App Dependencies ----
-gradio>=4.0.0
-python-dotenv
-google-generativeai
-openai
-requests
-Pillow
-gtts
-argostranslate
-langdetect
-pymongo
-SpeechRecognition
-google-api-python-client
-imageio
-imageio-ffmpeg
-numpy
-urllib3
+# Core Framework
+gradio==5.49.1
+python-dotenv==1.2.1
 
-# ---- ML & Model Dependencies ----
-modelscope>=1.31.0
-addict>=2.4.0
-datasets>=2.11.0
-pyarrow>=10.0.1
-transformers>=4.34.0
-torch>=2.9.0
+# Google AI (ESSENTIAL - your main LLM)
+google-generativeai==0.8.5
+google-api-python-client==2.187.0
+google-auth==2.43.0
+
+# Firebase (ESSENTIAL - for authentication)
+firebase-admin==6.5.0
+
+# AI/ML APIs
+openai==2.7.1
+requests==2.32.5
+
+# Database (ESSENTIAL - for user data)
+pymongo==4.15.3
+
+# Translation
+argostranslate==1.10.0
+langdetect==1.0.9
+gTTS==2.5.4
+
+# Image Processing
+pillow==11.3.0
+imageio==2.37.2
+imageio-ffmpeg==0.6.0
+numpy==1.26.4
+
+# PDF Processing (used in file extraction)
+PyPDF2==3.0.1
+
+# OCR (used in image text extraction fallback)
+pytesseract==0.3.13
+
+# Audio
+SpeechRecognition==3.14.3
+
+# Web Framework (ESSENTIAL - for Firebase auth endpoints)
+flask==3.1.0
+flask-cors==5.0.0
+
+# Video generation (FIXED VERSION - compatible with Python 3.10)
+replicate==1.0.7
+
+# Utilities
+python-dateutil==2.9.0.post0
